@@ -16,6 +16,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Profiles"
+            android:label="@string/title_activity_profiles"
+            android:parentActivityName=".HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group15.mrthermostat.HomePage" />
+        </activity>
+        <activity
+            android:name=".ProfileDetails"
+            android:label="@string/title_activity_profile_details"
+            android:parentActivityName=".Profiles" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group15.mrthermostat.Profiles" />
+        </activity>
+        <activity
+            android:name=".ProfileRules"
+            android:label="@string/title_activity_profile_rules"
+            android:parentActivityName=".ProfileDetails" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group15.mrthermostat.ProfileDetails" />
+        </activity>
+        <activity
+            android:name=".Sensors"
+            android:label="@string/title_activity_sensors"
+            android:parentActivityName=".HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group15.mrthermostat.HomePage" />
+        </activity>
+        <activity
+            android:name=".SensorDetails"
+            android:label="@string/title_activity_sensor_details"
+            android:parentActivityName=".Sensors" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group15.mrthermostat.Sensors" />
+        </activity>
     </application>
 
 </manifest>
