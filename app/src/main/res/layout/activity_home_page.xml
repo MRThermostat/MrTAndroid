@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textStyle="bold"
-        android:clickable="true" />
+        android:clickable="false" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -68,8 +68,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Work Week"
+        android:text="Work Week:"
         android:id="@+id/homePage_CurrentProfile"
+        android:layout_weight="1"
+        android:gravity="center_vertical|left"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:onClick="openProfilesActivity"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="8a-4p:      55\u00B0F    All Sensors\n4p-12a:    62\u00B0F    All Sensors\n12a-8a:    60\u00B0F    Bedroom Only"
+        android:id="@+id/homePage_CurrentProfileRules"
+        android:layout_weight="3"
+        android:gravity="top|left"
+        android:textStyle="normal"
+        android:clickable="true"
+        android:onClick="openProfilesActivity"
+        android:layout_marginLeft="40dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Active Sensors:"
+        android:id="@+id/homePage_ActiveSensorsTitle"
         android:layout_weight="1"
         android:gravity="center_vertical|left"
         android:textStyle="bold"
@@ -78,24 +104,90 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Current Profile"
-        android:id="@+id/homePage_CurrentProfileRules"
-        android:layout_weight="3"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Last Update: 5 min"
+        android:id="@+id/homePage_ActiveSensorUpdateTime"
         android:gravity="center"
-        android:textStyle="bold"
-        android:clickable="true" />
+        android:textStyle="normal"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:clickable="true"
+        android:onClick="openSensorsActivity">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bedroom\n57\u00B0F"
+            android:id="@+id/homePage_Sensor1"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:clickable="false"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Kitchen\n58\u00B0F"
+            android:id="@+id/homePage_Sensor2"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:clickable="false"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Hallway\n59\u00B0F"
+            android:id="@+id/homePage_Sensor3"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:clickable="false"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Living Room\n58\u00B0F"
+            android:id="@+id/homePage_Sensor4"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:clickable="false"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"/>
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sensor Data"
-        android:id="@+id/homePage_SensorData"
-        android:layout_weight="5"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Active Average: 58\u00B0F"
+        android:id="@+id/homePage_ActiveSensorAverage"
+        android:layout_weight="1"
         android:gravity="center"
         android:textStyle="bold"
-        android:clickable="true" />
+        android:clickable="true"
+        android:onClick="openProfilesActivity"
+        android:layout_marginTop="16dp"/>
+
+
 
 </LinearLayout>
