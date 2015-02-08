@@ -1,5 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" tools:context="group15.mrthermostat.Profiles">
+
+    <item android:id="@+id/Profiles_action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Profiles_action_add"
+        android:showAsAction="ifRoom" />
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>
