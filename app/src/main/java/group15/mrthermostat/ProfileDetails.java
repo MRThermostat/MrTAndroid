@@ -1,9 +1,11 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ProfileDetails extends Activity {
@@ -12,6 +14,11 @@ public class ProfileDetails extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_details);
+    }
+
+    public void openProfileRulesActivity(View view) {
+        Intent intent = new Intent(this, ProfileRules.class);
+        startActivity(intent);
     }
 
 

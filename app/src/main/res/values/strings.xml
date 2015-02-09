@@ -10,4 +10,11 @@
     <string name="title_activity_sensors">Sensors</string>
     <string name="title_activity_sensor_details">Sensor Details</string>
 
+    <string-array name="rule_type_list">
+        <item>Time</item>
+        <item>Weather</item>
+        <item>Proximity</item>
+    </string-array>
+
+
 </resources>

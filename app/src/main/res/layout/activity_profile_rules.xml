@@ -1,12 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="group15.mrthermostat.ProfileRules">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Rule Type"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
-</RelativeLayout>
+    <Spinner
+        android:id="@+id/ruleTypeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:text="Rule Conditions"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+
+
+    <TextView
+        android:text="Rule Actions"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+
+
+    <TextView
+        android:text="Sensors Active"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+
+
+</LinearLayout>
