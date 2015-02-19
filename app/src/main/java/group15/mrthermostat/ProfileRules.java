@@ -1,14 +1,36 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 
 public class ProfileRules extends Activity {
+
+    private TextView txtTime;
+
+    private int mSelectedHour;
+    private int mSelectedMinutes;
+
+    private TimePickerDialog.OnTimeSetListener mOnTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // update the current variables (hour and minutes)
+            mSelectedHour = hourOfDay;
+            mSelectedMinutes = minute;
+            // update txtTime with the selected time
+            updateTimeUI();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +45,33 @@ public class ProfileRules extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        // retrieve views
+        this.txtTime = (TextView) findViewById(R.id.rule_start_time_view);
+
+        // initialize the current date
+        Calendar calendar = Calendar.getInstance();
+        this.mSelectedHour = calendar.get(Calendar.HOUR_OF_DAY);
+        this.mSelectedMinutes = calendar.get(Calendar.MINUTE);
+        // set the current date and time on TextViews
+        updateTimeUI();
     }
 
+    private void updateTimeUI() {
+        String hour = (mSelectedHour > 9) ? ""+mSelectedHour: "0"+mSelectedHour ;
+        String minutes = (mSelectedMinutes > 9) ?""+mSelectedMinutes : "0"+mSelectedMinutes;
+        txtTime.setText(hour+":"+minutes);
+    }
+
+    private TimePickerDialog showTimePickerDialog(int initialHour, int initialMinutes, boolean is24Hour, TimePickerDialog.OnTimeSetListener listener) {
+        TimePickerDialog dialog = new TimePickerDialog(this, listener, initialHour, initialMinutes, is24Hour);
+        dialog.show();
+        return dialog;
+    }
+
+    public void showTimePickerDialog(View view) {
+        showTimePickerDialog(mSelectedHour, mSelectedMinutes, true, mOnTimeSetListener);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
