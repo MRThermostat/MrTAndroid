@@ -41,77 +41,11 @@
         android:paddingRight="0dp"
         android:paddingEnd="0dp">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Weekend Away"
-            android:id="@+id/profilesPage_OtherLayout1"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
-
-        <TextView
+        <ListView
+            android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Work From Home"
-            android:id="@+id/profilesPage_OtherLayout2"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Vacation"
-            android:id="@+id/profilesPage_OtherLayout3"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Day Off"
-            android:id="@+id/profilesPage_OtherLayout4"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Only Jake Home"
-            android:id="@+id/profilesPage_OtherLayout5"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:text="Party"
-            android:id="@+id/profilesPage_OtherLayout6"
-            android:gravity="center_vertical|start"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="openProfileDetailsActivity"/>
+            android:layout_height="wrap_content"
+            android:text="@string/hello" />
 
     </LinearLayout>
 
