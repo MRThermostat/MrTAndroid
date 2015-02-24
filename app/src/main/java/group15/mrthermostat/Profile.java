@@ -2,6 +2,7 @@ package group15.mrthermostat;
 
 /**
  * Created by jacob on 2/23/15.
+ * Holds profile specific functions and attributes
  */
 public class Profile {
 
@@ -16,12 +17,12 @@ public class Profile {
         this.id = id;
     }
 
-    public String getComment() {
+    public String getProfile() {
         return name;
     }
 
-    public void setComment(String comment) {
-        this.name = comment;
+    public void setProfile(String name) {
+        this.name = name;
     }
 
     // Will be used by the ArrayAdapter in the ListView

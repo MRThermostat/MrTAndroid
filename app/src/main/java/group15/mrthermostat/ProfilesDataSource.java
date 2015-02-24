@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by jacob on 2/23/15.
+ * Contains functions and fields used for manipulation of the Profile table
  */
 public class ProfilesDataSource {
 
@@ -73,7 +74,7 @@ public class ProfilesDataSource {
     private Profile cursorToName(Cursor cursor) {
         Profile name = new Profile();
         name.setId(cursor.getLong(0));
-        name.setComment(cursor.getString(1));
+        name.setProfile(cursor.getString(1));
         return name;
     }
 }

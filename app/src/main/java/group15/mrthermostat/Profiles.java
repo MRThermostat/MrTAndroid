@@ -1,18 +1,20 @@
 package group15.mrthermostat;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 
 
-public class Profiles extends Activity {
+public class Profiles extends ListActivity {
 
     private ProfilesDataSource datasource;
 
@@ -22,7 +24,11 @@ public class Profiles extends Activity {
         setContentView(R.layout.activity_profiles);
 
         datasource = new ProfilesDataSource(this);
-        datasource.open();
+        try {
+            datasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         List<Profile> values = datasource.getAllProfiles();
 
@@ -38,7 +44,7 @@ public class Profiles extends Activity {
     public void onClick(View view) {
         @SuppressWarnings("unchecked")
         ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
-        Profile profile = null;
+        Profile profile;
         switch (view.getId()) {
             case R.id.add:
                 String[] comments = new String[] { "Weekend Away", "Day Off", "Work From Home" };
@@ -50,12 +56,41 @@ public class Profiles extends Activity {
             case R.id.delete:
                 if (getListAdapter().getCount() > 0) {
                     profile = (Profile) getListAdapter().getItem(0);
-                    datasource.deleteComment(profile);
+                    datasource.deleteProfile(profile);
                     adapter.remove(profile);
                 }
                 break;
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public final static String PROFILE_NAME = "group15.mrthermostat.PROFILE";
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        // TODO Auto-generated method stub
+        super.onListItemClick(l, v, position, id);
+
+        Intent intent = new Intent(this, ProfileDetails.class);
+        String profile = String.valueOf(getListView().getItemAtPosition(position));
+        intent.putExtra(PROFILE_NAME, profile);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        try {
+            datasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        datasource.close();
+        super.onPause();
     }
 
     public void openProfileDetailsActivity(View view) {

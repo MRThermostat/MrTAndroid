@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class ProfileDetails extends Activity {
@@ -14,6 +16,12 @@ public class ProfileDetails extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_details);
+
+        Intent intent = getIntent();
+        String profile_name = intent.getStringExtra(Profiles.PROFILE_NAME);
+
+        EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
+        nameEdit.setText(profile_name, TextView.BufferType.EDITABLE);
     }
 
     public void openProfileRulesActivity(View view) {
