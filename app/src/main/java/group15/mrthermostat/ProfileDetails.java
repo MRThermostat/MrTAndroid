@@ -1,16 +1,24 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLException;
 
 
 public class ProfileDetails extends Activity {
+
+    private ProfilesDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +30,13 @@ public class ProfileDetails extends Activity {
 
         EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
         nameEdit.setText(profile_name, TextView.BufferType.EDITABLE);
+
+        datasource = new ProfilesDataSource(this);
+        try {
+            datasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void openProfileRulesActivity(View view) {
@@ -50,5 +65,24 @@ public class ProfileDetails extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Will be called via the onClick attribute
+    // of the buttons in main.xml
+    public void onClick(View view) {
+        EditText profileName = (EditText)findViewById(R.id.profileNameEdit);
+        switch (view.getId()) {
+             case R.id.SaveProfileButton:
+                // save the new comment to the database
+                String newProfile = profileName.getText().toString();
+                datasource.createProfile(newProfile);
+
+                 //Context context = getApplicationContext();
+                 //Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+                 //Intent intent = new Intent(this, Profiles.class);
+                 //startActivity(intent);
+
+                break;
+        }
     }
 }

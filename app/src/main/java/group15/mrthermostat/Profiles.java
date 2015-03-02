@@ -46,13 +46,13 @@ public class Profiles extends ListActivity {
         ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
         Profile profile;
         switch (view.getId()) {
-            case R.id.add:
+            /*case R.id.Profiles_action_add:
                 String[] comments = new String[] { "Weekend Away", "Day Off", "Work From Home" };
                 int nextInt = new Random().nextInt(3);
                 // save the new comment to the database
                 profile = datasource.createProfile(comments[nextInt]);
                 adapter.add(profile);
-                break;
+                break;*/
             case R.id.delete:
                 if (getListAdapter().getCount() > 0) {
                     profile = (Profile) getListAdapter().getItem(0);
@@ -63,6 +63,8 @@ public class Profiles extends ListActivity {
         }
         adapter.notifyDataSetChanged();
     }
+
+
 
     public final static String PROFILE_NAME = "group15.mrthermostat.PROFILE";
 
@@ -112,12 +114,26 @@ public class Profiles extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Profile profile;
+        ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.Profiles_action_add:
+                /*String[] comments = new String[]{"Weekend Away", "Day Off", "Work From Home"};
+                int nextInt = new Random().nextInt(3);
+                // save the new comment to the database
+                profile = datasource.createProfile(comments[nextInt]);
+                adapter.add(profile);
+                break;*/
+                Intent intent = new Intent(this, ProfileDetails.class);
+                startActivity(intent);
+                break;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }
