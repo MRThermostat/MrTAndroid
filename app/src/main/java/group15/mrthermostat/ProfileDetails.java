@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class ProfileDetails extends Activity {
@@ -73,16 +74,31 @@ public class ProfileDetails extends Activity {
         EditText profileName = (EditText)findViewById(R.id.profileNameEdit);
         switch (view.getId()) {
              case R.id.SaveProfileButton:
-                // save the new comment to the database
-                String newProfile = profileName.getText().toString();
-                datasource.createProfile(newProfile);
+                 // save the new comment to the database
+                 Boolean nameExists = false;
 
-                 //Context context = getApplicationContext();
-                 //Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+                 String newProfile = profileName.getText().toString();
+                 List<Profile> values = datasource.getAllProfiles();
+
+                 for (int i=0; i<values.size(); i++) {
+                     Profile currProf = values.get(i);
+                     if (newProfile.equals(currProf.toString())) {
+                         nameExists=true;
+                         break;
+                     }
+                 }
+
+
+
+                 if (!nameExists)
+                    datasource.createProfile(newProfile);
+
+                 Context context = getApplicationContext();
+                 Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
                  //Intent intent = new Intent(this, Profiles.class);
                  //startActivity(intent);
 
-                break;
+                 break;
         }
     }
 }

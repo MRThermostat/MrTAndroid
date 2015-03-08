@@ -74,7 +74,22 @@ public class ProfilesDataSource {
     private Profile cursorToName(Cursor cursor) {
         Profile name = new Profile();
         name.setId(cursor.getLong(0));
-        name.setProfile(cursor.getString(1));
+        name.setName(cursor.getString(1));
         return name;
     }
+
+    public boolean checkNameExist(String name) {
+
+        String[] allColumns = {MySQLiteHelper.COLUMN_NAME};
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES, allColumns,
+                MySQLiteHelper.COLUMN_NAME + " = " + name, null, null, null,
+                null);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
+    //public Profile updateProfile(String name) {
+
+    //}
 }

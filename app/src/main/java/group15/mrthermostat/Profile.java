@@ -17,11 +17,11 @@ public class Profile {
         this.id = id;
     }
 
-    public String getProfile() {
+    public String getName() {
         return name;
     }
 
-    public void setProfile(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

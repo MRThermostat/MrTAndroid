@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
 
 
 public class Profiles extends ListActivity {
@@ -46,13 +45,6 @@ public class Profiles extends ListActivity {
         ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
         Profile profile;
         switch (view.getId()) {
-            /*case R.id.Profiles_action_add:
-                String[] comments = new String[] { "Weekend Away", "Day Off", "Work From Home" };
-                int nextInt = new Random().nextInt(3);
-                // save the new comment to the database
-                profile = datasource.createProfile(comments[nextInt]);
-                adapter.add(profile);
-                break;*/
             case R.id.delete:
                 if (getListAdapter().getCount() > 0) {
                     profile = (Profile) getListAdapter().getItem(0);
@@ -114,17 +106,9 @@ public class Profiles extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Profile profile;
-        ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
 
         switch (id) {
             case R.id.Profiles_action_add:
-                /*String[] comments = new String[]{"Weekend Away", "Day Off", "Work From Home"};
-                int nextInt = new Random().nextInt(3);
-                // save the new comment to the database
-                profile = datasource.createProfile(comments[nextInt]);
-                adapter.add(profile);
-                break;*/
                 Intent intent = new Intent(this, ProfileDetails.class);
                 startActivity(intent);
                 break;
