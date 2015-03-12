@@ -47,8 +47,19 @@ public class ProfilesDataSource {
         return newProfile;
     }
 
-    public void deleteProfile(Profile name) {
-        long id = name.getId();
+    public void updateProfile(Profile profile) {
+        long id = profile.getId();
+        String name = profile.getName();
+        ContentValues args = new ContentValues();
+        args.put("name", name);
+
+        database.update(MySQLiteHelper.TABLE_PROFILES, args, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+
+        System.out.println("Profile with id: " + id + ": name updated to " + name);
+    }
+
+    public void deleteProfile(Profile profile) {
+        long id = profile.getId();
         System.out.println("Profile deleted with id: " + id);
         database.delete(MySQLiteHelper.TABLE_PROFILES, MySQLiteHelper.COLUMN_ID
                 + " = " + id, null);
@@ -78,16 +89,7 @@ public class ProfilesDataSource {
         return name;
     }
 
-    public boolean checkNameExist(String name) {
 
-        String[] allColumns = {MySQLiteHelper.COLUMN_NAME};
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES, allColumns,
-                MySQLiteHelper.COLUMN_NAME + " = " + name, null, null, null,
-                null);
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        return exists;
-    }
 
     //public Profile updateProfile(String name) {
 
