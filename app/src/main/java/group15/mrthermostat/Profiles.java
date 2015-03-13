@@ -40,22 +40,16 @@ public class Profiles extends ListActivity {
 
     // Will be called via the onClick attribute
     // of the buttons in main.xml
-    public void onClick(View view) {
+    /*public void onClick(View view) {
         @SuppressWarnings("unchecked")
         ArrayAdapter<Profile> adapter = (ArrayAdapter<Profile>) getListAdapter();
         Profile profile;
         switch (view.getId()) {
-            case R.id.delete:
-                if (getListAdapter().getCount() > 0) {
-                    profile = (Profile) getListAdapter().getItem(0);
-                    datasource.deleteProfile(profile);
-                    adapter.remove(profile);
-                }
-                break;
+
         }
         adapter.notifyDataSetChanged();
     }
-
+    */
 
 
     public final static String PROFILE_NAME = "group15.mrthermostat.PROFILE";

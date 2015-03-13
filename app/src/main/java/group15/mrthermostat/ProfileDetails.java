@@ -70,13 +70,20 @@ public class ProfileDetails extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Context context = getApplicationContext();
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+
+            case R.id.Profiles_action_delete:
+                if(editingProfile) {
+                    datasource.deleteProfile(currentProfile);
+                    Toast.makeText(context, "Profile Deleted", Toast.LENGTH_SHORT).show();
+                    openProfilesActivity();
+                }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -106,11 +113,11 @@ public class ProfileDetails extends Activity {
                      currentProfile.setName(newProfile);
                      datasource.updateProfile(currentProfile);
                      Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
-                     openProfilesActivity(view);
+                     openProfilesActivity();
                  } else {
                      datasource.createProfile(newProfile);
                      Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
-                     openProfilesActivity(view);
+                     openProfilesActivity();
                  }
 
                  //Intent intent = new Intent(this, Profiles.class);
@@ -120,7 +127,7 @@ public class ProfileDetails extends Activity {
         }
     }
 
-    public void openProfilesActivity(View view) {
+    public void openProfilesActivity() {
         Intent intent = new Intent(this, Profiles.class);
         startActivity(intent);
     }
