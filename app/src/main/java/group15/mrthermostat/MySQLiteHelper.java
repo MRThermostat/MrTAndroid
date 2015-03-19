@@ -16,10 +16,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PROFILES = "profiles";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
+    public static final String TABLE_SENSORS = "sensors";
+    public static final String COLUMN_TEMPERATURE = "temperature";
 
-    private static final String DATABASE_CREATE = "create table "
+    private static final String TABLE_PROFILES_CREATE = "create table "
             + TABLE_PROFILES + "(" + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_NAME
+            + " text not null);";
+
+    private static final String TABLE_SENSORS_CREATE = "create table "
+            + TABLE_SENSORS + "(" + COLUMN_ID
+            + " integer primary key autoincrement, " + COLUMN_NAME
+            + " text not null, " + COLUMN_TEMPERATURE
             + " text not null);";
 
     public MySQLiteHelper(Context context) {
@@ -28,7 +36,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL(DATABASE_CREATE);
+        database.execSQL(TABLE_PROFILES_CREATE);
+        database.execSQL(TABLE_SENSORS_CREATE);
     }
 
     @Override
@@ -37,6 +46,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SENSORS);
         onCreate(db);
     }
 }
