@@ -8,7 +8,7 @@ public class Sensor {
 
     private long id;
     private String name;
-    private String temp;
+    private int temp;
 
     public long getId() {
         return id;
@@ -26,11 +26,11 @@ public class Sensor {
         this.name = name;
     }
 
-    public String getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(String temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
     }
 

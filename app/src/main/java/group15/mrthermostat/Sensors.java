@@ -1,16 +1,15 @@
 package group15.mrthermostat;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 
 public class Sensors extends ListActivity {
@@ -36,6 +35,32 @@ public class Sensors extends ListActivity {
         ArrayAdapter<Sensor> adapter = new ArrayAdapter<Sensor>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
+    }
+
+
+    // Will be called via the onClick attribute
+    // of the buttons in main.xml
+    public void onClick(View view) {
+        @SuppressWarnings("unchecked")
+        ArrayAdapter<Sensor> adapter = (ArrayAdapter<Sensor>) getListAdapter();
+        Sensor sensor;
+        switch (view.getId()) {
+            case R.id.addSensor:
+                String[] testSensors = new String[] { "Livingroom", "Bedroom", "Hallway" };
+                int nextInt = new Random().nextInt(3);
+                // save the new comment to the database
+                sensor = datasource.createSensor(testSensors[nextInt], nextInt);
+                adapter.add(sensor);
+                break;
+            case R.id.removeSensor:
+                if (getListAdapter().getCount() > 0) {
+                    sensor = (Sensor) getListAdapter().getItem(0);
+                    datasource.deleteSensor(sensor);
+                    adapter.remove(sensor);
+                }
+                break;
+        }
+        adapter.notifyDataSetChanged();
     }
 
 

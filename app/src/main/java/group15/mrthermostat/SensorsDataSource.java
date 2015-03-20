@@ -33,7 +33,7 @@ public class SensorsDataSource {
         dbHelper.close();
     }
 
-    public Sensor createSensor(String name, String temp) {
+    public Sensor createSensor(String name, int temp) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_TEMPERATURE, temp);
@@ -51,7 +51,7 @@ public class SensorsDataSource {
     public void updateSensor(Sensor sensor) {
         long id = sensor.getId();
         String name = sensor.getName();
-        String temp = sensor.getTemp();
+        int temp = sensor.getTemp();
         ContentValues args = new ContentValues();
         args.put(MySQLiteHelper.COLUMN_NAME, name);
         args.put(MySQLiteHelper.COLUMN_TEMPERATURE, temp);
@@ -90,6 +90,7 @@ public class SensorsDataSource {
         Sensor name = new Sensor();
         name.setId(cursor.getLong(0));
         name.setName(cursor.getString(1));
+        name.setTemp(cursor.getInt(2));
         return name;
     }
 }
