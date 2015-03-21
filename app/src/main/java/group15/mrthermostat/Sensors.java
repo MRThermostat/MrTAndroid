@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
@@ -32,8 +33,7 @@ public class Sensors extends ListActivity {
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Sensor> adapter = new ArrayAdapter<Sensor>(this,
-                android.R.layout.simple_list_item_1, values);
+        SensorListArrayAdapter adapter = new SensorListArrayAdapter(this, values);
         setListAdapter(adapter);
     }
 
