@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 
 public class HomePage extends Activity {
@@ -14,6 +18,12 @@ public class HomePage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        String currentDateAndTime = DateFormat.getDateTimeInstance().format(new Date());
+        TextView dateText = (TextView) findViewById(R.id.homePage_Date);
+        dateText.setText(currentDateAndTime);
+
+
     }
 
     public void openProfilesActivity(View view) {
