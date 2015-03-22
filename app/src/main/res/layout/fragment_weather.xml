@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="group15.mrthermostat.weather">
+
+    <TextView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:id="@+id/weatherImg"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textSize="50sp"
+    android:layout_weight="1"
+    android:layout_marginRight="8dp"
+    android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weatherCity"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:clickable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weatherDetails"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:clickable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weatherTemp"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:clickable="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>

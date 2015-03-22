@@ -1,11 +1,15 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -23,7 +27,11 @@ public class HomePage extends Activity {
         TextView dateText = (TextView) findViewById(R.id.homePage_Date);
         dateText.setText(currentDateAndTime);
 
-
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.weatherbox, new weather())
+                    .commit();
+        }
     }
 
     public void openProfilesActivity(View view) {
@@ -35,8 +43,6 @@ public class HomePage extends Activity {
         Intent intent = new Intent(this, Sensors.class);
         startActivity(intent);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,6 +63,32 @@ public class HomePage extends Activity {
             return true;
         }
 
+        if (id == R.id.change_city) {
+            showInputDialog();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showInputDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Change city");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeCity(input.getText().toString());
+            }
+        });
+        builder.show();
+    }
+
+    public void changeCity(String city){
+        weather wf = (weather)getFragmentManager()
+                .findFragmentById(R.id.weatherbox);
+        wf.changeCity(city);
+        new CityPreference(this).setCity(city);
     }
 }
