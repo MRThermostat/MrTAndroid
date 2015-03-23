@@ -106,18 +106,22 @@ public class ProfileDetails extends Activity {
                      }
                  }
 
-                 if (profileExists) {
-                     Toast.makeText(context, "Error: Profile name already in use", Toast.LENGTH_SHORT).show();
-                     profileExists = false;
-                 } else if (editingProfile) {
-                     currentProfile.setName(newProfile);
-                     datasource.updateProfile(currentProfile);
-                     Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
-                     openProfilesActivity();
+                 if (newProfile.isEmpty()){
+                     Toast.makeText(context, "Error: No blank profile names allowed", Toast.LENGTH_SHORT).show();
                  } else {
-                     datasource.createProfile(newProfile);
-                     Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
-                     openProfilesActivity();
+                     if (profileExists) {
+                         Toast.makeText(context, "Error: Profile name already in use", Toast.LENGTH_SHORT).show();
+                         profileExists = false;
+                     } else if (editingProfile) {
+                         currentProfile.setName(newProfile);
+                         datasource.updateProfile(currentProfile);
+                         Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
+                         openProfilesActivity();
+                     } else {
+                         datasource.createProfile(newProfile);
+                         Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
+                         openProfilesActivity();
+                     }
                  }
 
                  //Intent intent = new Intent(this, Profiles.class);

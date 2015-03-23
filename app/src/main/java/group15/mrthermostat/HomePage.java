@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,8 +20,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 public class HomePage extends Activity implements LocationListener {
@@ -82,10 +87,26 @@ public class HomePage extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        Context context = getApplicationContext();
         int lat = (int) (location.getLatitude());
         int lng = (int) (location.getLongitude());
         latituteField.setText(String.valueOf(lat));
         longitudeField.setText(String.valueOf(lng));
+
+        //take coordinates and get a locale name
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = gcd.getFromLocation(lat, lng, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //if locales are present, apply them to the weatherFetcher
+        if (addresses.size() > 0) {
+            System.out.println(addresses.get(0).getLocality());
+            //changeCity(addresses.get(0).getLocality());
+        }
     }
 
     @Override
