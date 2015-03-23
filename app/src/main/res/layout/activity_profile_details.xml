@@ -36,35 +36,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingLeft="24dp"
-        android:paddingStart="24dp">
+        android:paddingStart="24dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:text="IF          08:00 - 16:00\nTHEN   all sensors : 55\u00B0F"
-            android:textSize="20sp"
-            android:clickable="true"
-            android:onClick="openProfileRulesActivity"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:text="IF          16:00 - 24:00\nTHEN   all sensors : 62\u00B0F"
-            android:textSize="20sp"
-            android:clickable="true"
-            android:onClick="openProfileRulesActivity"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:text="IF          00:00 - 08:00\nTHEN   Bedroom,Hallway : 60\u00B0F"
-            android:textSize="20sp"
-            android:clickable="true"
-            android:onClick="openProfileRulesActivity"/>
-
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello" />
 
     </LinearLayout>
 

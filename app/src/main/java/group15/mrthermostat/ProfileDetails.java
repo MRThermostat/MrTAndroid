@@ -1,23 +1,27 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 
-public class ProfileDetails extends Activity {
+public class ProfileDetails extends ListActivity {
 
-    private ProfilesDataSource datasource;
+    private ProfilesDataSource profileDatasource;
+    private RulesDataSource ruleDatasource;
     Profile currentProfile;
     Boolean profileExists = false;
     Boolean editingProfile = false;
@@ -33,22 +37,32 @@ public class ProfileDetails extends Activity {
         EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
         nameEdit.setText(profile_name, TextView.BufferType.EDITABLE);
 
-        datasource = new ProfilesDataSource(this);
+        profileDatasource = new ProfilesDataSource(this);
         try {
-            datasource.open();
+            profileDatasource.open();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         if(profile_name != null && !profile_name.isEmpty()) {
             editingProfile = true;
-            List<Profile> allProfs = datasource.getAllProfiles();
+            List<Profile> allProfs = profileDatasource.getAllProfiles();
             for (int i = 0; i < allProfs.size(); i++) {
                 currentProfile = allProfs.get(i);
                 if (profile_name.equals(currentProfile.toString())) break;
             }
         }
 
+        ruleDatasource = new RulesDataSource(this);
+        try {
+            ruleDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        List<Rule> values = ruleDatasource.getAllRules();
+        RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, values);
+        setListAdapter(adapter);
 
     }
 
@@ -72,17 +86,33 @@ public class ProfileDetails extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         Context context = getApplicationContext();
+        @SuppressWarnings("unchecked")
+        ArrayAdapter<Rule> adapter = (ArrayAdapter<Rule>) getListAdapter();
+        Rule rule;
 
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
-
-            case R.id.Profiles_action_delete:
-                if(editingProfile) {
-                    datasource.deleteProfile(currentProfile);
+            case R.id.action_delete:
+                /*if(editingProfile) {
+                    profileDatasource.deleteProfile(currentProfile);
                     Toast.makeText(context, "Profile Deleted", Toast.LENGTH_SHORT).show();
                     openProfilesActivity();
+                }*/
+                if (getListAdapter().getCount() > 0) {
+                    rule = (Rule) getListAdapter().getItem(0);
+                    ruleDatasource.deleteRule(rule);
+                    adapter.remove(rule);
                 }
+                break;
+            case R.id.action_add:
+                int[] testRules = new int[] { 800, 1200, 1400, 1800, 2200, 200, 400, 600};
+                int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
+                int nextInt = new Random().nextInt(8);
+                // save the new comment to the database
+                rule = ruleDatasource.createRule("Testing", "Type", testRules[nextInt], testRules[nextInt], testTemps[nextInt]);
+                adapter.add(rule);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -98,7 +128,7 @@ public class ProfileDetails extends Activity {
 
                  String newProfile = profileName.getText().toString();
 
-                 List<Profile> allProfs = datasource.getAllProfiles();
+                 List<Profile> allProfs = profileDatasource.getAllProfiles();
                  for (int i = 0; i < allProfs.size(); i++) {
                      if (newProfile.equals(allProfs.get(i).toString())) {
                          profileExists = true;
@@ -114,11 +144,11 @@ public class ProfileDetails extends Activity {
                          profileExists = false;
                      } else if (editingProfile) {
                          currentProfile.setName(newProfile);
-                         datasource.updateProfile(currentProfile);
+                         profileDatasource.updateProfile(currentProfile);
                          Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();
                      } else {
-                         datasource.createProfile(newProfile);
+                         profileDatasource.createProfile(newProfile);
                          Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();
                      }
