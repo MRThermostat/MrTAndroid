@@ -46,10 +46,39 @@ public class RuleListArrayAdapter extends ArrayAdapter<Rule> {
         int endCond = rule.getEndCondition();
         int setting = rule.getSetting();
 
-        String conditionText = String.format("From %d until %d", startCond, endCond);
+        String startCond_s, endCond_s;
+        if (startCond <9) {
+            startCond_s = "000"+startCond;
+        } else if(startCond<99){
+            startCond_s = "00"+startCond;
+        } else if(startCond<999){
+            startCond_s = "0"+startCond;
+        } else {
+            startCond_s = ""+startCond;
+        }
+
+        if (endCond <9) {
+            endCond_s = "000"+endCond;
+        } else if(endCond<99){
+            endCond_s = "00"+endCond;
+        } else if(endCond<999){
+            endCond_s = "0"+endCond;
+        } else {
+            endCond_s = ""+endCond;
+        }
+
+        String startCond_h, startCond_m, endCond_h, endCond_m;
+        startCond_h = startCond_s.substring(0,2);
+        startCond_m = startCond_s.substring(2);
+        endCond_h = endCond_s.substring(0,2);
+        endCond_m = endCond_s.substring(2);
+
+
+        //String conditionText = String.format("From %d until %d", startCond, endCond);
         String settingText = String.format("set thermostat to %d", setting);
 
-        view.conditionField.setText(conditionText);
+        view.conditionField.setText("From " + startCond_h + ":" + startCond_m
+                + " until " + endCond_h + ":" + endCond_m);
         view.settingField.setText(settingText);
 
         return convertView;

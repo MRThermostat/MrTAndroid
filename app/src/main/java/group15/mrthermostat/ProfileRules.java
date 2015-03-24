@@ -12,17 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -34,17 +30,15 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
     private TextView txtSetting;
 
     String ruleOwner;
+    int startCond, endCond, setting;
 
     private int startHour;
     private int startMinutes;
     private int endHour;
     private int endMinutes;
 
-    static Dialog d ;
-
     private RulesDataSource rulesDatasource;
     Rule currentRule;
-    Boolean ruleExists = false;
     Boolean editingRule = false;
 
     private TimePickerDialog.OnTimeSetListener onTimeSetListener_start = new TimePickerDialog.OnTimeSetListener() {
@@ -73,7 +67,6 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_rules);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         rulesDatasource = new RulesDataSource(this);
         try {
@@ -119,17 +112,46 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
                 currentRule = allRules.get(i);
                 if (rule_id == currentRule.getId()) break;
             }
+
+            ruleOwner = currentRule.getProfileName();
+
+            startCond = currentRule.getStartCondition();
+            endCond = currentRule.getEndCondition();
+            setting = currentRule.getSetting();
+
+            String startCond_s, endCond_s;
+            if (startCond <9) {
+                startCond_s = "000"+startCond;
+            } else if(startCond<99){
+                startCond_s = "00"+startCond;
+            } else if(startCond<999){
+                startCond_s = "0"+startCond;
+            } else {
+                startCond_s = ""+startCond;
+            }
+
+            if (endCond <9) {
+                endCond_s = "000"+endCond;
+            } else if(endCond<99){
+                endCond_s = "00"+endCond;
+            } else if(endCond<999){
+                endCond_s = "0"+endCond;
+            } else {
+                endCond_s = ""+endCond;
+            }
+
+            String startCond_h, startCond_m, endCond_h, endCond_m;
+            startCond_h = startCond_s.substring(0,2);
+            startCond_m = startCond_s.substring(2);
+            endCond_h = endCond_s.substring(0,2);
+            endCond_m = endCond_s.substring(2);
+
+            txtTimeStart.setText("START:  "+ startCond_h+":"+startCond_m);
+            txtTimeEnd.setText("END:      "+ endCond_h+":"+endCond_m);
+            txtSetting.setText("Temperature: "+setting);
         }
 
-        if(editingRule) {
-            ruleOwner = currentRule.getProfileName();
-            txtTimeStart.setText(""+currentRule.getStartCondition());
-            txtTimeEnd.setText(""+currentRule.getEndCondition());
-            txtSetting.setText(""+currentRule.getSetting());
-
-        } //else {
-            txtRuleOwner.setText(ruleOwner);
-        //}
+        txtRuleOwner.setText(ruleOwner);
 
         //TextView nameEdit = (TextView)findViewById(R.id.test_text);
         //nameEdit.setText("" + rule_id);
@@ -138,19 +160,19 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
     private void updateStartTimeUI() {
         String hour = (startHour > 9) ? ""+startHour: "0"+startHour ;
         String minutes = (startMinutes > 9) ?""+startMinutes : "0"+startMinutes;
-        //txtTime.setText(hour+":"+minutes);
-        String txtTimeMilitary = hour + minutes;
-        int mSelectedTime = Integer.parseInt(txtTimeMilitary);
         txtTimeStart.setText("START:  "+ hour+":"+minutes);
+
+        String txtTimeMilitary = hour + minutes;
+        startCond = Integer.parseInt(txtTimeMilitary);
     }
 
     private void updateEndTimeUI() {
         String hour = (endHour > 9) ? ""+endHour: "0"+endHour ;
         String minutes = (endMinutes > 9) ?""+endMinutes : "0"+endMinutes;
-        //txtTime.setText(hour+":"+minutes);
-        String txtTimeMilitary = hour + minutes;
-        int mSelectedTime = Integer.parseInt(txtTimeMilitary);
         txtTimeEnd.setText("END:      "+ hour+":"+minutes);
+
+        String txtTimeMilitary = hour + minutes;
+        endCond = Integer.parseInt(txtTimeMilitary);
     }
 
     private TimePickerDialog showTimePickerDialog(int initialHour, int initialMinutes, boolean is24Hour, TimePickerDialog.OnTimeSetListener listener) {
@@ -200,7 +222,8 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         {
             @Override
             public void onClick(View v) {
-                txtSetting.setText(String.valueOf("Temperature: " + np.getValue()));
+                setting = np.getValue();
+                txtSetting.setText("Temperature: " + setting);
                 d.dismiss();
             }
         });
@@ -254,5 +277,70 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         Intent intent = new Intent(this, ProfileDetails.class);
         intent.putExtra("PROFILE_NAME", ruleOwner);
         startActivity(intent);
+    }
+
+    public void onClick(View view) {
+        Context context = getApplicationContext();
+        switch (view.getId()) {
+            case R.id.SaveProfileButton:
+                // save the new comment to the database
+                if(editingRule) {
+                    currentRule.setStartCondition(startCond);
+                    currentRule.setEndCondition(endCond);
+                    currentRule.setSetting(setting);
+
+                    rulesDatasource.updateRule(currentRule);
+
+                    Toast.makeText(context, "Rule Updated", Toast.LENGTH_SHORT).show();
+                    openProfileDetailsActivity();
+                } else {
+                    rulesDatasource.createRule(ruleOwner,"Time",startCond,endCond,setting);
+                    Toast.makeText(context, "Rule Updated", Toast.LENGTH_SHORT).show();
+                    openProfileDetailsActivity();
+                }
+
+                /*
+                String newProfile = profileName.getText().toString();
+
+                List<Profile> allProfs = profileDatasource.getAllProfiles();
+                for (int i = 0; i < allProfs.size(); i++) {
+                    if (newProfile.equals(allProfs.get(i).toString())) {
+                        profileExists = true;
+                        break;
+                    }
+                }
+
+                if (newProfile.isEmpty()){
+                    Toast.makeText(context, "Error: No blank profile names allowed", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (profileExists) {
+                        Toast.makeText(context, "Error: Profile name already in use", Toast.LENGTH_SHORT).show();
+                        profileExists = false;
+                    } else if (editingProfile) {
+                        currentProfile.setName(newProfile);
+                        profileDatasource.updateProfile(currentProfile);
+
+                        List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+                        for (int i = 0; i < rules.size(); i++) {
+                            Rule tempRule = rules.get(i);
+                            tempRule.setProfileName(newProfile);
+                            ruleDatasource.updateRule(tempRule);
+                        }
+
+                        Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
+                        openProfilesActivity();
+                    } else {
+                        profileDatasource.createProfile(newProfile);
+                        Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
+                        openProfilesActivity();
+                    }
+                }
+
+                //Intent intent = new Intent(this, Profiles.class);
+                //startActivity(intent);
+
+                break;
+                */
+        }
     }
 }
