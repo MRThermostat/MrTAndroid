@@ -46,10 +46,12 @@ public class Sensors extends ListActivity {
         Sensor sensor;
         switch (view.getId()) {
             case R.id.addSensor:
-                String[] testSensors = new String[] { "Livingroom", "Bedroom", "Hallway" };
-                int nextInt = new Random().nextInt(3);
+                String[] testSensors = new String[] { "Livingroom", "Bedroom", "Hallway", "Porch",
+                        "Foyer", "Kitchen", "Bathroom", "Basement" };
+                int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
+                int nextInt = new Random().nextInt(8);
                 // save the new comment to the database
-                sensor = datasource.createSensor(testSensors[nextInt], nextInt);
+                sensor = datasource.createSensor(testSensors[nextInt], testTemps[nextInt]);
                 adapter.add(sensor);
                 break;
             case R.id.removeSensor:

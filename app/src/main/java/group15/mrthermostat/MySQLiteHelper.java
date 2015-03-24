@@ -13,11 +13,12 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "dataFromTCU.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
 
     public static final String TABLE_PROFILES = "profiles";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_ACTIVE = "active";
 
     public static final String TABLE_SENSORS = "sensors";
     public static final String COLUMN_TEMPERATURE = "temperature";
@@ -31,7 +32,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_PROFILES_CREATE = "create table " + TABLE_PROFILES
             + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_NAME + " text not null);";
+            + COLUMN_NAME + " text not null, "
+            + COLUMN_ACTIVE + " integer);";
 
     private static final String TABLE_SENSORS_CREATE = "create table " + TABLE_SENSORS
             + "(" + COLUMN_ID + " integer primary key autoincrement, "

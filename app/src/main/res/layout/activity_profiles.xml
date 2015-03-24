@@ -18,13 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Work Week"
-        android:id="@+id/profilesPage_CurrentlyActive"
+        android:text="---"
+        android:id="@+id/active_profile"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="40sp"
-        android:clickable="true"
-        android:onClick="openProfileDetailsActivity"/>
+        android:textSize="40sp"/>
 
     <TextView
         android:text="Available Profiles:"

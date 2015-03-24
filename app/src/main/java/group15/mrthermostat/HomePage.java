@@ -2,6 +2,7 @@ package group15.mrthermostat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,22 +18,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 
-public class HomePage extends Activity implements LocationListener {
+public class HomePage extends ListActivity implements LocationListener {
 
     private TextView latituteField;
     private TextView longitudeField;
     private LocationManager locationManager;
     private String provider;
+    Profile activeProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,8 @@ public class HomePage extends Activity implements LocationListener {
                     .commit();
         }
 
-        latituteField = (TextView) findViewById(R.id.sensor1);
-        longitudeField = (TextView) findViewById(R.id.sensor2);
+        //latituteField = (TextView) findViewById(R.id.sensor1);
+        //longitudeField = (TextView) findViewById(R.id.sensor2);
 
         //get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -66,9 +70,55 @@ public class HomePage extends Activity implements LocationListener {
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
-            latituteField.setText("Location not available");
-            longitudeField.setText("Location not available");
+            //latituteField.setText("Location not available");
+            //longitudeField.setText("Location not available");
         }
+
+        ProfilesDataSource profilesDatasource = new ProfilesDataSource(this);
+        try {
+            profilesDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<Profile> allProfs = profilesDatasource.getAllProfiles();
+
+        for (int i = 0; i < allProfs.size(); i++) {
+            activeProfile = allProfs.get(i);
+            if (activeProfile.getActive()!=0) break;
+        }
+        String profile_name = activeProfile.getName();
+        TextView txtActiveProfile = (TextView)findViewById(R.id.currentProfile);
+        txtActiveProfile.setText(activeProfile.getName() + ":");
+
+        RulesDataSource ruleDatasource = new RulesDataSource(this);
+        try {
+            ruleDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+        RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
+        setListAdapter(adapter);
+
+        SensorsDataSource datasource = new SensorsDataSource(this);
+        try {
+            datasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<Sensor> sensors = datasource.getAllSensors();
+
+        TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4;
+        txtSensor1 = (TextView)findViewById(R.id.sensor1);
+        txtSensor2 = (TextView)findViewById(R.id.sensor2);
+        txtSensor3 = (TextView)findViewById(R.id.sensor3);
+        txtSensor4 = (TextView)findViewById(R.id.sensor4);
+
+        txtSensor1.setText(sensors.get(0).getName()+"\n"+sensors.get(0).getTemp()+"\u00B0F");
+        txtSensor2.setText(sensors.get(1).getName()+"\n"+sensors.get(1).getTemp()+"\u00B0F");
+        txtSensor3.setText(sensors.get(2).getName()+"\n"+sensors.get(2).getTemp()+"\u00B0F");
+        txtSensor4.setText(sensors.get(3).getName()+"\n"+sensors.get(3).getTemp()+"\u00B0F");
     }
 
     /* Request updates at startup */
@@ -183,5 +233,14 @@ public class HomePage extends Activity implements LocationListener {
                 .findFragmentById(R.id.weatherbox);
         wf.changeCity(city);
         new CityPreference(this).setCity(city);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        // TODO Auto-generated method stub
+        super.onListItemClick(l, v, position, id);
+
+        Intent intent = new Intent(this, Profiles.class);
+        startActivity(intent);
     }
 }

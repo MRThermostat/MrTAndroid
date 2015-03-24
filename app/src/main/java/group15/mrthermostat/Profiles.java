@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Profiles extends ListActivity {
 
     private ProfilesDataSource datasource;
+    Profile activeProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +31,19 @@ public class Profiles extends ListActivity {
             e.printStackTrace();
         }
 
-        List<Profile> values = datasource.getAllProfiles();
+        List<Profile> allProfs = datasource.getAllProfiles();
+
+        for (int i = 0; i < allProfs.size(); i++) {
+            activeProfile = allProfs.get(i);
+            if (activeProfile.getActive()!=0) break;
+        }
+        TextView txtActiveProfile = (TextView)findViewById(R.id.active_profile);
+        txtActiveProfile.setText(activeProfile.getName());
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         ArrayAdapter<Profile> adapter = new ArrayAdapter<Profile>(this,
-                android.R.layout.simple_list_item_1, values);
+                android.R.layout.simple_list_item_1, allProfs);
         setListAdapter(adapter);
     }
 

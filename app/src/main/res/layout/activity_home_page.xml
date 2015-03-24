@@ -12,10 +12,9 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/homePage_Date"
-        android:layout_weight="1"
         android:gravity="center"
         android:textStyle="bold"
         android:clickable="false" />
@@ -23,62 +22,54 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:id="@+id/weatherbox"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="35dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Work Week:"
+        android:text="No Active Profile"
         android:id="@+id/currentProfile"
-        android:layout_weight="1"
         android:gravity="center_vertical|left"
         android:textStyle="bold"
         android:clickable="true"
         android:onClick="openProfilesActivity"
         android:layout_marginTop="16dp"/>
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="8a-4p:      55\u00B0F    All Sensors\n4p-12a:    62\u00B0F    All Sensors\n12a-8a:    60\u00B0F    Bedroom Only"
-        android:id="@+id/currentProfileRules"
         android:layout_weight="3"
-        android:gravity="top|left"
-        android:textStyle="normal"
-        android:clickable="true"
-        android:onClick="openProfilesActivity"
-        android:layout_marginLeft="40dp" />
+        android:paddingLeft="24dp"
+        android:paddingStart="24dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="35dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Active Sensors:"
         android:id="@+id/activeSensorsTitle"
-        android:layout_weight="1"
         android:gravity="center_vertical|left"
         android:textStyle="bold"
         android:clickable="true"
         android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Last Update: 5 min"
-        android:id="@+id/activeSensorUpdateTime"
-        android:gravity="center"
-        android:textStyle="normal"
-        android:clickable="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="80dp"
         android:clickable="true"
         android:onClick="openSensorsActivity">
 
@@ -99,7 +90,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Kitchen\n58\u00B0F"
             android:id="@+id/sensor2"
             android:layout_weight="1"
             android:gravity="center"
@@ -112,7 +102,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Hallway\n59\u00B0F"
             android:id="@+id/sensor3"
             android:layout_weight="1"
             android:gravity="center"
@@ -125,7 +114,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Living Room\n58\u00B0F"
             android:id="@+id/sensor4"
             android:layout_weight="1"
             android:gravity="center"
@@ -136,20 +124,5 @@
 
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Active Average: 58\u00B0F"
-        android:id="@+id/activeSensorAverage"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:onClick="openProfilesActivity"
-        android:layout_marginTop="16dp"/>
-
-
 
 </LinearLayout>

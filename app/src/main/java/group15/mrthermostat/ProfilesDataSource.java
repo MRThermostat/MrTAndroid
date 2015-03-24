@@ -19,7 +19,7 @@ public class ProfilesDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_NAME };
+            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_ACTIVE };
 
     public ProfilesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -36,6 +36,7 @@ public class ProfilesDataSource {
     public Profile createProfile(String name) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
+        values.put("active", 0);
         long insertId = database.insert(MySQLiteHelper.TABLE_PROFILES, null,
                 values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES,
@@ -50,10 +51,12 @@ public class ProfilesDataSource {
     public void updateProfile(Profile profile) {
         long id = profile.getId();
         String name = profile.getName();
-        ContentValues args = new ContentValues();
-        args.put("name", name);
+        int active = profile.getActive();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("active", active);
 
-        database.update(MySQLiteHelper.TABLE_PROFILES, args, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+        database.update(MySQLiteHelper.TABLE_PROFILES, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
 
         System.out.println("Profile with id: " + id + ": name updated to " + name);
     }
@@ -66,7 +69,7 @@ public class ProfilesDataSource {
     }
 
     public List<Profile> getAllProfiles() {
-        List<Profile> names = new ArrayList<Profile>();
+        List<Profile> profiles = new ArrayList<Profile>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES,
                 allColumns, null, null, null, null, null);
@@ -74,19 +77,20 @@ public class ProfilesDataSource {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Profile name = cursorToName(cursor);
-            names.add(name);
+            profiles.add(name);
             cursor.moveToNext();
         }
         // make sure to close the cursor
         cursor.close();
-        return names;
+        return profiles;
     }
 
     private Profile cursorToName(Cursor cursor) {
-        Profile name = new Profile();
-        name.setId(cursor.getLong(0));
-        name.setName(cursor.getString(1));
-        return name;
+        Profile profile = new Profile();
+        profile.setId(cursor.getLong(0));
+        profile.setName(cursor.getString(1));
+        profile.setActive(cursor.getInt(2));
+        return profile;
     }
 
 

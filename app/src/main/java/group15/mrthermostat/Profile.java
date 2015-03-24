@@ -8,11 +8,11 @@ public class Profile {
 
     private long id;
     private String name;
+    private int active;
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -23,6 +23,9 @@ public class Profile {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getActive() { return active;}
+    public void setActive(int active) { this.active = active;}
 
     // Will be used by the ArrayAdapter in the ListView
     @Override

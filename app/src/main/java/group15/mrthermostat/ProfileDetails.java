@@ -28,6 +28,7 @@ public class ProfileDetails extends ListActivity {
     Boolean profileExists = false;
     Boolean editingProfile = false;
     String profile_name;
+    List<Profile> allProfs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,10 @@ public class ProfileDetails extends ListActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        allProfs = profileDatasource.getAllProfiles();
 
         if(profile_name != null && !profile_name.isEmpty()) {
             editingProfile = true;
-            List<Profile> allProfs = profileDatasource.getAllProfiles();
             for (int i = 0; i < allProfs.size(); i++) {
                 currentProfile = allProfs.get(i);
                 if (profile_name.equals(currentProfile.toString())) break;
@@ -94,16 +95,22 @@ public class ProfileDetails extends ListActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_delete:
-                /*if(editingProfile) {
+                if(editingProfile) {
                     profileDatasource.deleteProfile(currentProfile);
                     Toast.makeText(context, "Profile Deleted", Toast.LENGTH_SHORT).show();
                     openProfilesActivity();
-                }*/
-                if (getListAdapter().getCount() > 0) {
+
+                    List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+                    for (int i = 0; i < rules.size(); i++) {
+                        Rule tempRule = rules.get(i);
+                        ruleDatasource.deleteRule(tempRule);
+                    }
+                }
+                /*if (getListAdapter().getCount() > 0) {
                     rule = (Rule) getListAdapter().getItem(0);
                     ruleDatasource.deleteRule(rule);
                     adapter.remove(rule);
-                }
+                }*/
                 break;
             case R.id.action_add:
                 /*int[] testRules = new int[] { 800, 1200, 1400, 1800, 2200, 200, 400, 600};
@@ -143,7 +150,6 @@ public class ProfileDetails extends ListActivity {
 
                  String newProfile = profileName.getText().toString();
 
-                 List<Profile> allProfs = profileDatasource.getAllProfiles();
                  for (int i = 0; i < allProfs.size(); i++) {
                      if (newProfile.equals(allProfs.get(i).toString())) {
                          profileExists = true;
@@ -181,6 +187,18 @@ public class ProfileDetails extends ListActivity {
                  //startActivity(intent);
 
                  break;
+            case R.id.set_profile_active_button:
+                if(editingProfile){
+                    for (int i = 0; i < allProfs.size(); i++) {
+                        Profile tempProfile = allProfs.get(i);
+                        tempProfile.setActive(0);
+                        profileDatasource.updateProfile(tempProfile);
+                    }
+                    currentProfile.setActive(1);
+                    profileDatasource.updateProfile(currentProfile);
+                    Toast.makeText(context, "Profile set to Active", Toast.LENGTH_SHORT).show();
+                    break;
+                }
         }
     }
 

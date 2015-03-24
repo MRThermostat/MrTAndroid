@@ -50,7 +50,15 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
+        android:id="@+id/set_profile_active_button"
+        android:text="Set as Active"
+        android:textStyle="bold"
+        android:onClick="onClick"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:id="@+id/SaveProfileButton"
         android:text="Save"
         android:textStyle="bold"
