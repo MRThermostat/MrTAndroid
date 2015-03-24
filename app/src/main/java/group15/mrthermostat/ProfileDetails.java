@@ -27,6 +27,7 @@ public class ProfileDetails extends ListActivity {
     Profile currentProfile;
     Boolean profileExists = false;
     Boolean editingProfile = false;
+    String profile_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class ProfileDetails extends ListActivity {
         setContentView(R.layout.activity_profile_details);
 
         Intent intent = getIntent();
-        String profile_name = intent.getStringExtra("PROFILE_NAME");
+        profile_name = intent.getStringExtra("PROFILE_NAME");
         Log.d("CAD", "String EXTRA is: " + profile_name);
 
         EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
@@ -63,8 +64,8 @@ public class ProfileDetails extends ListActivity {
             e.printStackTrace();
         }
 
-        List<Rule> values = ruleDatasource.getAllRules();
-        RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, values);
+        List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+        RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
         setListAdapter(adapter);
 
     }
@@ -159,6 +160,14 @@ public class ProfileDetails extends ListActivity {
                      } else if (editingProfile) {
                          currentProfile.setName(newProfile);
                          profileDatasource.updateProfile(currentProfile);
+
+                         List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+                         for (int i = 0; i < rules.size(); i++) {
+                             Rule tempRule = rules.get(i);
+                             tempRule.setProfileName(newProfile);
+                             ruleDatasource.updateRule(tempRule);
+                         }
+
                          Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();
                      } else {
