@@ -1,11 +1,13 @@
 package group15.mrthermostat;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 import java.sql.SQLException;
@@ -86,5 +88,17 @@ public class Sensors extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        // TODO Auto-generated method stub
+        super.onListItemClick(l, v, position, id);
+
+        Intent intent = new Intent(this, SensorDetails.class);
+        Sensor sensor = (Sensor) l.getItemAtPosition(position);
+        long sensorID = sensor.getId();
+        intent.putExtra("SENSOR_ID", sensorID);
+        startActivity(intent);
     }
 }

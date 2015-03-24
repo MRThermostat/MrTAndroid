@@ -6,7 +6,82 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="group15.mrthermostat.SensorDetails">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Sensor Name:"
+        android:layout_width="match_parent"
+        android:id="@+id/sensor_name_label"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/sensor_name_label"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:id="@+id/sensor_name_edit"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:hint="Sensor Name"/>
+
+    <TextView
+        android:text="Temperature:"
+        android:layout_width="match_parent"
+        android:id="@+id/sensor_temp_label"
+        android:layout_height="20dp"
+        android:layout_below="@+id/sensor_name_edit"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/sensor_temp_label"
+        android:id="@+id/sensor_temp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center_vertical|start"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="54\u00B0F"/>
+
+    <TextView
+        android:text="Status:"
+        android:layout_width="match_parent"
+        android:id="@+id/sensor_status_label"
+        android:layout_height="20dp"
+        android:layout_below="@+id/sensor_temp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/sensor_status_label"
+        android:id="@+id/sensor_status"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center_vertical|start"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Inactive"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/save_sensor_button"
+        android:id="@+id/set_sensor_active_button"
+        android:text="Set as Active"
+        android:textStyle="bold"
+        android:onClick="onClick"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/save_sensor_button"
+        android:text="Save"
+        android:textStyle="bold"
+        android:onClick="onClick"/>
 
 </RelativeLayout>
