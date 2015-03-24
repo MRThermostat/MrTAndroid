@@ -52,7 +52,7 @@ public class Profiles extends ListActivity {
     */
 
 
-    public final static String PROFILE_NAME = "group15.mrthermostat.PROFILE";
+    //public final static String PROFILE_NAME = "group15.mrthermostat.PROFILE";
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -60,8 +60,8 @@ public class Profiles extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         Intent intent = new Intent(this, ProfileDetails.class);
-        String profile = String.valueOf(getListView().getItemAtPosition(position));
-        intent.putExtra(PROFILE_NAME, profile);
+        String profileName = String.valueOf(getListView().getItemAtPosition(position));
+        intent.putExtra("PROFILE_NAME", profileName);
         startActivity(intent);
     }
 

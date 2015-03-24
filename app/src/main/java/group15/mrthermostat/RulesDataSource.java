@@ -95,6 +95,25 @@ public class RulesDataSource {
         return rules;
     }
 
+    public List<Rule> getProfileRules(String profile) {
+        List<Rule> rules = new ArrayList<Rule>();
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_RULES,
+                allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Rule rule = cursorToName(cursor);
+            if(rule.getProfileName().equals(profile)){
+                rules.add(rule);
+            }
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return rules;
+    }
+
     private Rule cursorToName(Cursor cursor) {
         Rule rule = new Rule();
         rule.setId(cursor.getLong(0));

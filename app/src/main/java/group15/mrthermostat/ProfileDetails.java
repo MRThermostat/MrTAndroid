@@ -5,11 +5,13 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,8 @@ public class ProfileDetails extends ListActivity {
         setContentView(R.layout.activity_profile_details);
 
         Intent intent = getIntent();
-        String profile_name = intent.getStringExtra(Profiles.PROFILE_NAME);
+        String profile_name = intent.getStringExtra("PROFILE_NAME");
+        Log.d("CAD", "String EXTRA is: " + profile_name);
 
         EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
         nameEdit.setText(profile_name, TextView.BufferType.EDITABLE);
@@ -66,18 +69,14 @@ public class ProfileDetails extends ListActivity {
 
     }
 
-    public void openProfileRulesActivity(View view) {
-        Intent intent = new Intent(this, ProfileRules.class);
-        startActivity(intent);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile_details, menu);
         return true;
     }
+
+    public final static String RULE_OWNER = "group15.mrthermostat.RuleOwner";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,12 +105,27 @@ public class ProfileDetails extends ListActivity {
                 }
                 break;
             case R.id.action_add:
-                int[] testRules = new int[] { 800, 1200, 1400, 1800, 2200, 200, 400, 600};
+                /*int[] testRules = new int[] { 800, 1200, 1400, 1800, 2200, 200, 400, 600};
                 int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
                 int nextInt = new Random().nextInt(8);
+                int nextInt2 = new Random().nextInt(8);
+                String profName = currentProfile.getName();
+
+                rule = ruleDatasource.createRule(profName, "Time", testRules[nextInt], testRules[nextInt2], testTemps[nextInt]);
+                adapter.add(rule);*/
+
+
+                if(editingProfile) {
+                    String profName = currentProfile.getName();
+
+                    Intent intent = new Intent(this, ProfileRules.class);
+                    intent.putExtra(RULE_OWNER, profName);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Rules can only be added to existing Profiles", Toast.LENGTH_SHORT).show();
+                }
+
                 // save the new comment to the database
-                rule = ruleDatasource.createRule("Testing", "Type", testRules[nextInt], testRules[nextInt], testTemps[nextInt]);
-                adapter.add(rule);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -161,8 +175,30 @@ public class ProfileDetails extends ListActivity {
         }
     }
 
+    public final static String RULE_ID = "group15.mrthermostat.Rule";
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        // TODO Auto-generated method stub
+        super.onListItemClick(l, v, position, id);
+
+        Intent intent = new Intent(this, ProfileRules.class);
+
+        Rule rule = (Rule) l.getItemAtPosition(position);
+        long ruleID = rule.getId();
+        intent.putExtra(RULE_ID, ruleID);
+
+
+        startActivity(intent);
+    }
+
     public void openProfilesActivity() {
         Intent intent = new Intent(this, Profiles.class);
+        startActivity(intent);
+    }
+
+    public void openProfileRulesActivity() {
+        Intent intent = new Intent(this, ProfileRules.class);
         startActivity(intent);
     }
 

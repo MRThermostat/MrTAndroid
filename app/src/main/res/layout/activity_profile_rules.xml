@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -10,43 +10,109 @@
     tools:context="group15.mrthermostat.ProfileRules">
 
     <TextView
+        android:text="Rule Owner"
+        android:layout_width="match_parent"
+        android:id="@+id/rule_owner_label"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rule_owner_label"
+        android:id="@+id/rule_owner"
+        android:clickable="true"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        />
+
+    <TextView
         android:text="Rule Type"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:id="@+id/type_label"
+        android:layout_height="20dp"
+        android:layout_below="@+id/rule_owner"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     <Spinner
         android:id="@+id/ruleTypeSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/type_label"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
     <TextView
         android:text="Rule Conditions"
+        android:id="@+id/conditions_label"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        android:layout_below="@+id/ruleTypeSpinner"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
     <TextView
-        android:text="blah"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/conditions_label"
         android:id="@+id/rule_start_time_view"
         android:clickable="true"
         android:onClick="showTimePickerDialog"
+        android:textSize="25sp"
+        android:text="Click to set start time"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
         />
 
     <TextView
-        android:text="Rule Actions"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-
+        android:layout_height="40dp"
+        android:layout_below="@+id/rule_start_time_view"
+        android:id="@+id/rule_end_time_view"
+        android:clickable="true"
+        android:onClick="showTimePickerDialog"
+        android:textSize="25sp"
+        android:text="click to set end time"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        />
 
     <TextView
-        android:text="Sensors Active"
+        android:text="Rule Setting"
+        android:id="@+id/settings_label"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        android:layout_below="@+id/rule_end_time_view"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/settings_label"
+        android:id="@+id/rule_setting_view"
+        android:clickable="true"
+        android:onClick="showNumberPickerDialog"
+        android:textSize="25sp"
+        android:text="click to set rule temperature"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/SaveProfileButton"
+        android:text="Save"
+        android:textStyle="bold"
+        android:onClick="onClick"/>
 
 
 
-</LinearLayout>
+</RelativeLayout>
