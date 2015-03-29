@@ -19,7 +19,8 @@ public class SensorsDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_TEMPERATURE };
+            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_TEMPERATURE,
+            MySQLiteHelper.COLUMN_ACTIVE, MySQLiteHelper.COLUMN_TID};
 
     public SensorsDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -33,10 +34,13 @@ public class SensorsDataSource {
         dbHelper.close();
     }
 
-    public Sensor createSensor(String name, int temp) {
+    public Sensor createSensor(String name, int temp, int active, int tId) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_TEMPERATURE, temp);
+        values.put(MySQLiteHelper.COLUMN_ACTIVE, active);
+        values.put(MySQLiteHelper.COLUMN_ACTIVE, tId);
+
         long insertId = database.insert(MySQLiteHelper.TABLE_SENSORS, null,
                 values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_SENSORS,
@@ -52,9 +56,14 @@ public class SensorsDataSource {
         long id = sensor.getId();
         String name = sensor.getName();
         int temp = sensor.getTemp();
+        int active = sensor.getActive();
+        int tId = sensor.getTId();
+
         ContentValues args = new ContentValues();
         args.put(MySQLiteHelper.COLUMN_NAME, name);
         args.put(MySQLiteHelper.COLUMN_TEMPERATURE, temp);
+        args.put(MySQLiteHelper.COLUMN_ACTIVE, active);
+        args.put(MySQLiteHelper.COLUMN_TID, tId);
 
         database.update(MySQLiteHelper.TABLE_SENSORS, args, MySQLiteHelper.COLUMN_ID + " = " + id, null);
 
@@ -87,10 +96,12 @@ public class SensorsDataSource {
     }
 
     private Sensor cursorToName(Cursor cursor) {
-        Sensor name = new Sensor();
-        name.setId(cursor.getLong(0));
-        name.setName(cursor.getString(1));
-        name.setTemp(cursor.getInt(2));
-        return name;
+        Sensor sensor = new Sensor();
+        sensor.setId(cursor.getLong(0));
+        sensor.setName(cursor.getString(1));
+        sensor.setTemp(cursor.getInt(2));
+        sensor.setActive(cursor.getInt(3));
+        sensor.setTId(cursor.getInt(4));
+        return sensor;
     }
 }

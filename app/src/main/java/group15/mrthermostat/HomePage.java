@@ -1,17 +1,11 @@
 package group15.mrthermostat;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -22,20 +16,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class HomePage extends ListActivity implements LocationListener {
 
-    private TextView latituteField;
-    private TextView longitudeField;
-    private LocationManager locationManager;
-    private String provider;
+    //private TextView cordsField;
+    //private TextView longitudeField;
+    //private LocationManager locationManager;
+    //private String provider;
     Profile activeProfile;
 
     @Override
@@ -55,24 +47,24 @@ public class HomePage extends ListActivity implements LocationListener {
                     .commit();
         }
 
-        //latituteField = (TextView) findViewById(R.id.sensor1);
+        //cordsField = (TextView) findViewById(R.id.activeSensorsTitle);
         //longitudeField = (TextView) findViewById(R.id.sensor2);
 
         //get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // Define the criteria how to select the location provider -> use default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(provider);
+        //Criteria criteria = new Criteria();
+        //provider = locationManager.getBestProvider(criteria, false);
+        //Location location = locationManager.getLastKnownLocation(provider);
 
         // Initialize the location fields
-        if (location != null) {
-            System.out.println("Provider " + provider + " has been selected.");
-            onLocationChanged(location);
-        } else {
-            //latituteField.setText("Location not available");
-            //longitudeField.setText("Location not available");
-        }
+        //if (location != null) {
+        //    System.out.println("Provider " + provider + " has been selected.");
+        //    onLocationChanged(location);
+        //} else {
+        //    cordsField.setText("Location not available");
+        //    //longitudeField.setText("Location not available");
+        //}
 
         ProfilesDataSource profilesDatasource = new ProfilesDataSource(this);
         try {
@@ -82,24 +74,32 @@ public class HomePage extends ListActivity implements LocationListener {
         }
         List<Profile> allProfs = profilesDatasource.getAllProfiles();
 
-        for (int i = 0; i < allProfs.size(); i++) {
-            activeProfile = allProfs.get(i);
-            if (activeProfile.getActive()!=0) break;
-        }
-        String profile_name = activeProfile.getName();
         TextView txtActiveProfile = (TextView)findViewById(R.id.currentProfile);
-        txtActiveProfile.setText(activeProfile.getName() + ":");
 
-        RulesDataSource ruleDatasource = new RulesDataSource(this);
-        try {
-            ruleDatasource.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (allProfs.size() > 0) {
+            for (int i = 0; i < allProfs.size(); i++) {
+                activeProfile = allProfs.get(i);
+                if (activeProfile.getActive()!=0) break;
+            }
+
+            String profile_name = activeProfile.getName();
+            txtActiveProfile = (TextView)findViewById(R.id.currentProfile);
+            txtActiveProfile.setText(activeProfile.getName() + ":");
+
+            RulesDataSource ruleDatasource = new RulesDataSource(this);
+            try {
+                ruleDatasource.open();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
+            RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
+            setListAdapter(adapter);
+        } else {
+            txtActiveProfile.setText("No Currently Active Profile");
         }
 
-        List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
-        RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
-        setListAdapter(adapter);
 
         SensorsDataSource datasource = new SensorsDataSource(this);
         try {
@@ -107,8 +107,9 @@ public class HomePage extends ListActivity implements LocationListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        List<Sensor> sensors = datasource.getAllSensors();
+        //List<Sensor> sensors = datasource.getAllSensors();
 
+        /*
         TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4;
         txtSensor1 = (TextView)findViewById(R.id.sensor1);
         txtSensor2 = (TextView)findViewById(R.id.sensor2);
@@ -119,44 +120,46 @@ public class HomePage extends ListActivity implements LocationListener {
         txtSensor2.setText(sensors.get(1).getName()+"\n"+sensors.get(1).getTemp()+"\u00B0F");
         txtSensor3.setText(sensors.get(2).getName()+"\n"+sensors.get(2).getTemp()+"\u00B0F");
         txtSensor4.setText(sensors.get(3).getName()+"\n"+sensors.get(3).getTemp()+"\u00B0F");
+        */
     }
 
     /* Request updates at startup */
     @Override
     protected void onResume() {
         super.onResume();
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+        //locationManager.requestLocationUpdates(provider, 400, 1, this);
     }
 
     /* Remove the locationlistener updates when Activity is paused */
     @Override
     protected void onPause() {
         super.onPause();
-        locationManager.removeUpdates(this);
+        //locationManager.removeUpdates(this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Context context = getApplicationContext();
-        int lat = (int) (location.getLatitude());
-        int lng = (int) (location.getLongitude());
-        latituteField.setText(String.valueOf(lat));
-        longitudeField.setText(String.valueOf(lng));
+        //Context context = getApplicationContext();
+        //float lat = (float) (location.getLatitude());
+        //float lng = (float) (location.getLongitude());
+        //cordsField.setText(String.valueOf(lat)+ " " + String.valueOf(lng));
+        //longitudeField.setText(String.valueOf(lng));
 
         //take coordinates and get a locale name
-        Geocoder gcd = new Geocoder(context, Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = gcd.getFromLocation(lat, lng, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        //List<Address> addresses = null;
+        //try {
+        //    addresses = gcd.getFromLocation(lat, lng, 1);
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
 
         //if locales are present, apply them to the weatherFetcher
-        if (addresses.size() > 0) {
-            System.out.println(addresses.get(0).getLocality());
-            //changeCity(addresses.get(0).getLocality());
-        }
+        //if (addresses.size() > 0) {
+        //   String cordCity = addresses.get(0).getLocality();
+        //    System.out.println(cordCity);
+        //    //changeCity(addresses.get(0).getLocality());
+        //}
     }
 
     @Override

@@ -45,7 +45,8 @@
         android:paddingLeft="24dp"
         android:paddingStart="24dp"
         android:paddingRight="0dp"
-        android:paddingEnd="0dp">
+        android:paddingEnd="0dp"
+        android:onClick="openProfilesActivity">
 
         <ListView
             android:id="@android:id/list"

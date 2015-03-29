@@ -19,7 +19,8 @@ public class ProfilesDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_ACTIVE };
+            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_ACTIVE,
+            MySQLiteHelper.COLUMN_TID};
 
     public ProfilesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -33,10 +34,13 @@ public class ProfilesDataSource {
         dbHelper.close();
     }
 
+    //public Profile createProfile(String name, int active, int tId) {
     public Profile createProfile(String name) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
-        values.put("active", 0);
+        values.put(MySQLiteHelper.COLUMN_ACTIVE, 0);
+        values.put(MySQLiteHelper.COLUMN_TID, 0);
+
         long insertId = database.insert(MySQLiteHelper.TABLE_PROFILES, null,
                 values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES,
@@ -52,9 +56,12 @@ public class ProfilesDataSource {
         long id = profile.getId();
         String name = profile.getName();
         int active = profile.getActive();
+        int tId  = profile.getTId();
+
         ContentValues values = new ContentValues();
-        values.put("name", name);
-        values.put("active", active);
+        values.put(MySQLiteHelper.COLUMN_NAME, name);
+        values.put(MySQLiteHelper.COLUMN_ACTIVE, active);
+        values.put(MySQLiteHelper.COLUMN_TID, tId);
 
         database.update(MySQLiteHelper.TABLE_PROFILES, values, MySQLiteHelper.COLUMN_ID + " = " + id, null);
 
@@ -76,8 +83,8 @@ public class ProfilesDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Profile name = cursorToName(cursor);
-            profiles.add(name);
+            Profile profile = cursorToName(cursor);
+            profiles.add(profile);
             cursor.moveToNext();
         }
         // make sure to close the cursor
@@ -90,12 +97,7 @@ public class ProfilesDataSource {
         profile.setId(cursor.getLong(0));
         profile.setName(cursor.getString(1));
         profile.setActive(cursor.getInt(2));
+        profile.settId(cursor.getInt(3));
         return profile;
     }
-
-
-
-    //public Profile updateProfile(String name) {
-
-    //}
 }

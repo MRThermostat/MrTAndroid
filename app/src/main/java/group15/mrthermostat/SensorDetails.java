@@ -19,9 +19,11 @@ public class SensorDetails extends Activity {
     long sensorId;
     SensorsDataSource sensorDatasource;
     Sensor currentSensor;
+    List<Sensor> allSensors;
 
     EditText nameEdit;
     TextView tempText;
+    TextView activeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class SensorDetails extends Activity {
             e.printStackTrace();
         }
 
-        List<Sensor> allSensors = sensorDatasource.getAllSensors();
+        allSensors = sensorDatasource.getAllSensors();
         for (int i = 0; i < allSensors.size(); i++) {
             currentSensor = allSensors.get(i);
             if (sensorId == currentSensor.getId()) break;
@@ -49,6 +51,32 @@ public class SensorDetails extends Activity {
 
         tempText = (TextView)findViewById(R.id.sensor_temp);
         tempText.setText(currentSensor.getTemp()+"\u00B0F");
+
+        activeText = (TextView)findViewById(R.id.sensor_active);
+
+        if (currentSensor.getActive() == 1){
+            activeText.setText("Active");
+        } else {
+            activeText.setText("Inactive");
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        try {
+            sensorDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        sensorDatasource.close();
+        super.onPause();
     }
 
 
@@ -64,11 +92,16 @@ public class SensorDetails extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Context context = getApplicationContext();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_delete:
+                sensorDatasource.deleteSensor(currentSensor);
+                Toast.makeText(context, "Profile Deleted", Toast.LENGTH_SHORT).show();
+                openSensorsActivity();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -86,6 +119,19 @@ public class SensorDetails extends Activity {
 
                 Toast.makeText(context, "Rule Updated", Toast.LENGTH_SHORT).show();
                 openSensorsActivity();
+
+                break;
+
+            case R.id.set_sensor_active_button:
+                for (int i = 0; i < allSensors.size(); i++) {
+                    Sensor tempSensor = allSensors.get(i);
+                    tempSensor.setActive(0);
+                    sensorDatasource.updateSensor(tempSensor);
+                }
+                currentSensor.setActive(1);
+                sensorDatasource.updateSensor(currentSensor);
+                Toast.makeText(context, "Sensor set to Active", Toast.LENGTH_SHORT).show();
+                break;
 
         }
     }

@@ -32,13 +32,17 @@ public class Profiles extends ListActivity {
         }
 
         List<Profile> allProfs = datasource.getAllProfiles();
-
-        for (int i = 0; i < allProfs.size(); i++) {
-            activeProfile = allProfs.get(i);
-            if (activeProfile.getActive()!=0) break;
-        }
         TextView txtActiveProfile = (TextView)findViewById(R.id.active_profile);
-        txtActiveProfile.setText(activeProfile.getName());
+
+        if(allProfs.size() > 0) {
+            for (int i = 0; i < allProfs.size(); i++) {
+                activeProfile = allProfs.get(i);
+                if (activeProfile.getActive()!=0) break;
+            }
+            txtActiveProfile.setText(activeProfile.getName());
+        } else {
+            txtActiveProfile.setText("No Active Profile");
+        }
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
@@ -90,10 +94,10 @@ public class Profiles extends ListActivity {
         super.onPause();
     }
 
-    public void openProfileDetailsActivity(View view) {
+    /*public void openProfileDetailsActivity(View view) {
         Intent intent = new Intent(this, ProfileDetails.class);
         startActivity(intent);
-    }
+    }*/
 
 
     @Override

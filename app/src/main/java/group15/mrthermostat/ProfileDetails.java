@@ -1,6 +1,5 @@
 package group15.mrthermostat;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
 
 
 public class ProfileDetails extends ListActivity {
@@ -72,6 +69,29 @@ public class ProfileDetails extends ListActivity {
     }
 
     @Override
+    protected void onResume() {
+        try {
+            profileDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ruleDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        profileDatasource.close();
+        ruleDatasource.close();
+        super.onPause();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile_details, menu);
@@ -87,10 +107,6 @@ public class ProfileDetails extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         Context context = getApplicationContext();
-        @SuppressWarnings("unchecked")
-        ArrayAdapter<Rule> adapter = (ArrayAdapter<Rule>) getListAdapter();
-        Rule rule;
-
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
@@ -224,9 +240,9 @@ public class ProfileDetails extends ListActivity {
         startActivity(intent);
     }
 
-    public void openProfileRulesActivity() {
+    /*public void openProfileRulesActivity() {
         Intent intent = new Intent(this, ProfileRules.class);
         startActivity(intent);
-    }
+    }*/
 
 }

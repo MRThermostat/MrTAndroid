@@ -157,6 +157,22 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         //nameEdit.setText("" + rule_id);
     }
 
+    @Override
+    protected void onResume() {
+        try {
+            rulesDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        rulesDatasource.close();
+        super.onPause();
+    }
+
     private void updateStartTimeUI() {
         String hour = (startHour > 9) ? ""+startHour: "0"+startHour ;
         String minutes = (startMinutes > 9) ?""+startMinutes : "0"+startMinutes;

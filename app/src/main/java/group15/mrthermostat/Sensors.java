@@ -39,6 +39,22 @@ public class Sensors extends ListActivity {
         setListAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        try {
+            datasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        datasource.close();
+        super.onPause();
+    }
 
     // Will be called via the onClick attribute
     // of the buttons in main.xml
@@ -53,7 +69,7 @@ public class Sensors extends ListActivity {
                 int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
                 int nextInt = new Random().nextInt(8);
                 // save the new comment to the database
-                sensor = datasource.createSensor(testSensors[nextInt], testTemps[nextInt]);
+                sensor = datasource.createSensor(testSensors[nextInt], testTemps[nextInt], 0, 0);
                 adapter.add(sensor);
                 break;
             case R.id.removeSensor:

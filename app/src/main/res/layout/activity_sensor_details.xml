@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@+id/sensor_status_label"
-        android:id="@+id/sensor_status"
+        android:id="@+id/sensor_active"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
         android:gravity="center_vertical|start"

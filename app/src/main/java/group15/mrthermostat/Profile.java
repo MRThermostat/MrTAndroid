@@ -9,6 +9,7 @@ public class Profile {
     private long id;
     private String name;
     private int active;
+    private int tId;
 
     public long getId() {
         return id;
@@ -26,6 +27,9 @@ public class Profile {
 
     public int getActive() { return active;}
     public void setActive(int active) { this.active = active;}
+
+    public int getTId() {return tId;}
+    public void settId(int tId) { this.tId = tId;}
 
     // Will be used by the ArrayAdapter in the ListView
     @Override
