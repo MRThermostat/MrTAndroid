@@ -27,6 +27,8 @@ public class ProfileDetails extends ListActivity {
     String profile_name;
     List<Profile> allProfs;
 
+    TextView activeStatusText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +49,17 @@ public class ProfileDetails extends ListActivity {
         }
         allProfs = profileDatasource.getAllProfiles();
 
+        activeStatusText = (TextView)findViewById(R.id.profile_active);
+
         if(profile_name != null && !profile_name.isEmpty()) {
             editingProfile = true;
             for (int i = 0; i < allProfs.size(); i++) {
                 currentProfile = allProfs.get(i);
                 if (profile_name.equals(currentProfile.toString())) break;
+            }
+
+            if(currentProfile.getActive() == 1) {
+                activeStatusText.setText("Active");
             }
         }
 
@@ -65,6 +73,8 @@ public class ProfileDetails extends ListActivity {
         List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
         RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
         setListAdapter(adapter);
+
+
 
     }
 
@@ -213,6 +223,10 @@ public class ProfileDetails extends ListActivity {
                     currentProfile.setActive(1);
                     profileDatasource.updateProfile(currentProfile);
                     Toast.makeText(context, "Profile set to Active", Toast.LENGTH_SHORT).show();
+
+                    TextView activeStatusText = (TextView)findViewById(R.id.profile_active);
+                    activeStatusText.setText("Active");
+
                     break;
                 }
         }
@@ -240,7 +254,12 @@ public class ProfileDetails extends ListActivity {
         startActivity(intent);
     }
 
-    /*public void openProfileRulesActivity() {
+    /*public void restartActivity() {
+        finish();
+        startActivity(getIntent());
+    }
+
+    public void openProfileRulesActivity() {
         Intent intent = new Intent(this, ProfileRules.class);
         startActivity(intent);
     }*/

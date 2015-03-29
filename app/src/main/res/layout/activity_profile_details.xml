@@ -25,6 +25,15 @@
         android:hint="Profile Name"/>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/profile_active"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Inactive"/>
+
+    <TextView
         android:text="Rules:"
         android:layout_width="match_parent"
         android:layout_height="20dp"

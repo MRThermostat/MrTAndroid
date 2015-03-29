@@ -107,20 +107,33 @@ public class HomePage extends ListActivity implements LocationListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //List<Sensor> sensors = datasource.getAllSensors();
+        List<Sensor> sensors = datasource.getAllSensors();
 
-        /*
         TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4;
         txtSensor1 = (TextView)findViewById(R.id.sensor1);
         txtSensor2 = (TextView)findViewById(R.id.sensor2);
         txtSensor3 = (TextView)findViewById(R.id.sensor3);
         txtSensor4 = (TextView)findViewById(R.id.sensor4);
 
-        txtSensor1.setText(sensors.get(0).getName()+"\n"+sensors.get(0).getTemp()+"\u00B0F");
-        txtSensor2.setText(sensors.get(1).getName()+"\n"+sensors.get(1).getTemp()+"\u00B0F");
-        txtSensor3.setText(sensors.get(2).getName()+"\n"+sensors.get(2).getTemp()+"\u00B0F");
-        txtSensor4.setText(sensors.get(3).getName()+"\n"+sensors.get(3).getTemp()+"\u00B0F");
-        */
+        if (sensors.size() > 3) {
+            txtSensor1.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
+            txtSensor2.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
+            txtSensor3.setText(sensors.get(2).getName() + "\n" + sensors.get(2).getTemp() + "\u00B0F");
+            txtSensor4.setText(sensors.get(3).getName() + "\n" + sensors.get(3).getTemp() + "\u00B0F");
+        } else if (sensors.size() == 3) {
+            txtSensor1.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
+            txtSensor2.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
+            txtSensor3.setText(sensors.get(2).getName() + "\n" + sensors.get(2).getTemp() + "\u00B0F");
+        } else if (sensors.size() == 2) {
+            txtSensor2.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
+            txtSensor3.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
+        } else if (sensors.size() == 1) {
+            txtSensor2.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
+        } else {
+            txtSensor1.setText("No");
+            txtSensor2.setText("sensors");
+            txtSensor3.setText("connected");
+        }
     }
 
     /* Request updates at startup */
