@@ -32,6 +32,9 @@
     <string name="weather_drizzle">&#xf01c;</string>
     <string name="place_not_found">Sorry, no weather data found.</string>
 
+    <string name="change_ip">Set TCU IP</string>
+    <string name="user_login">Login</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test1">Test1</string>

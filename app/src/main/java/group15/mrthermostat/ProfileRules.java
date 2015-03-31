@@ -24,7 +24,6 @@ import java.util.List;
 
 public class ProfileRules extends Activity implements NumberPicker.OnValueChangeListener{
 
-    private TextView txtRuleOwner;
     private TextView txtTimeStart;
     private TextView txtTimeEnd;
     private TextView txtSetting;
@@ -85,7 +84,7 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         spinner.setAdapter(adapter);
 
         // retrieve views
-        txtRuleOwner = (TextView) findViewById(R.id.rule_owner);
+        TextView txtRuleOwner = (TextView) findViewById(R.id.rule_owner);
         txtTimeStart = (TextView) findViewById(R.id.rule_start_time_view);
         txtTimeEnd = (TextView) findViewById(R.id.rule_end_time_view);
         txtSetting = (TextView) findViewById(R.id.rule_setting_view);

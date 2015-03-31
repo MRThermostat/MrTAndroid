@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +31,14 @@ public class HomePage extends ListActivity implements LocationListener {
     //private String provider;
     Profile activeProfile;
 
+    CityPreference appPrefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        appPrefs = new CityPreference(this);
 
         //Set date and time
         String currentDateAndTime = DateFormat.getDateTimeInstance().format(new Date());
@@ -223,17 +228,26 @@ public class HomePage extends ListActivity implements LocationListener {
         }
 
         if (id == R.id.change_city) {
-            showInputDialog();
+            showCityInputDialog();
+        }
+
+        if (id == R.id.change_ip) {
+            showIPInputDialog();
+        }
+
+        if (id == R.id.user_login) {
+            showUsernameInputDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void showInputDialog(){
+    private void showCityInputDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Change city");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(appPrefs.getCity());
         builder.setView(input);
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
@@ -248,7 +262,75 @@ public class HomePage extends ListActivity implements LocationListener {
         weather wf = (weather)getFragmentManager()
                 .findFragmentById(R.id.weatherbox);
         wf.changeCity(city);
-        new CityPreference(this).setCity(city);
+        appPrefs.setCity(city);
+    }
+
+    private void showIPInputDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set TCU IP");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(appPrefs.getIP());
+        builder.setView(input);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeIP(input.getText().toString());
+            }
+        });
+        builder.show();
+    }
+
+    public void changeIP(String tcuIP){
+        System.out.println("Old:" + appPrefs.getIP());
+        System.out.println("New: " + tcuIP);
+        appPrefs.setIP(tcuIP);
+    }
+
+    private void showUsernameInputDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Username");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(appPrefs.getUsername());
+        builder.setView(input);
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeUsername(input.getText().toString());
+                showPasswordInputDialog();
+            }
+        });
+        builder.show();
+    }
+
+    public void changeUsername(String username){
+        System.out.println("Old:" + appPrefs.getUsername());
+        System.out.println("New: " + username);
+        appPrefs.setUsername(username);
+    }
+
+    private void showPasswordInputDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Password");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(appPrefs.getPassword());
+        input.setTransformationMethod(new PasswordTransformationMethod());
+        builder.setView(input);
+        builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changePassword(input.getText().toString());
+            }
+        });
+        builder.show();
+    }
+
+    public void changePassword(String password){
+        System.out.println("Old:" + appPrefs.getPassword());
+        System.out.println("New: " + password);
+        appPrefs.setPassword(password);
     }
 
     @Override

@@ -9,4 +9,15 @@
         android:orderInCategory="1"
         android:title="@string/change_city"
         android:showAsAction="never"/>
+    <item
+        android:id="@+id/change_ip"
+        android:orderInCategory="1"
+        android:title="@string/change_ip"
+        android:showAsAction="never"/>
+
+    <item
+        android:id="@+id/user_login"
+        android:orderInCategory="1"
+        android:title="@string/user_login"
+        android:showAsAction="never"/>
 </menu>
