@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class SensorDetails extends Activity {
     EditText nameEdit;
     TextView tempText;
     TextView activeText;
+    ImageView activeImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +55,14 @@ public class SensorDetails extends Activity {
         tempText.setText(currentSensor.getTemp()+"\u00B0F");
 
         activeText = (TextView)findViewById(R.id.sensor_active);
+        activeImage = (ImageView)findViewById(R.id.sensor_active_image);
 
         if (currentSensor.getActive() == 1){
             activeText.setText("Active");
+            activeImage.setImageResource(R.drawable.btn_check_on_holo_light);
         } else {
             activeText.setText("Inactive");
+            activeImage.setImageResource(R.drawable.btn_check_off_holo_light);
         }
 
     }
@@ -122,22 +127,25 @@ public class SensorDetails extends Activity {
 
                 break;
 
-            case R.id.set_sensor_active_button:
-                for (int i = 0; i < allSensors.size(); i++) {
-                    Sensor tempSensor = allSensors.get(i);
-                    tempSensor.setActive(0);
-                    sensorDatasource.updateSensor(tempSensor);
-                }
-                currentSensor.setActive(1);
-                sensorDatasource.updateSensor(currentSensor);
-                Toast.makeText(context, "Sensor set to Active", Toast.LENGTH_SHORT).show();
-                break;
-
         }
     }
 
     public void openSensorsActivity() {
         Intent intent = new Intent(this, Sensors.class);
         startActivity(intent);
+    }
+
+    public void toggleSensorActive(View View){
+        if (currentSensor.getActive()==1){
+            currentSensor.setActive(0);
+            sensorDatasource.updateSensor(currentSensor);
+            activeText.setText("Inactive");
+            activeImage.setImageResource(R.drawable.btn_check_off_holo_light);
+        } else {
+            currentSensor.setActive(1);
+            sensorDatasource.updateSensor(currentSensor);
+            activeText.setText("Active");
+            activeImage.setImageResource(R.drawable.btn_check_on_holo_light);
+        }
     }
 }

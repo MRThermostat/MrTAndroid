@@ -11,28 +11,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/numberPicker1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/numberPicker1"
-        android:layout_toEndOf="@+id/numberPicker1"
-        android:text="Cancel" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_toLeftOf="@+id/numberPicker1"
-        android:layout_toStartOf="@+id/numberPicker1"
-        android:text="Set" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            style="?android:attr/buttonBarButtonStyle"/>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="OK"
+            style="?android:attr/buttonBarButtonStyle"/>
+
+        </LinearLayout>
 
 </RelativeLayout>

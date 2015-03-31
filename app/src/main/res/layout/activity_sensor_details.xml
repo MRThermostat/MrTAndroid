@@ -54,26 +54,35 @@
         android:layout_below="@+id/sensor_temp"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/sensor_status_label"
-        android:id="@+id/sensor_active"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
-        android:gravity="center_vertical|start"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="Inactive"/>
+        android:layout_below="@+id/sensor_status_label"
+        android:gravity="center_vertical"
+        android:onClick="toggleSensorActive"
+        android:clickable="true">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_above="@+id/save_sensor_button"
-        android:id="@+id/set_sensor_active_button"
-        android:text="Set as Active"
-        android:textStyle="bold"
-        android:onClick="onClick"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:id="@+id/sensor_active"
+            android:gravity="center_vertical|start"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="Inactive"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/sensor_active_image"
+            android:contentDescription="@string/sensor_active_list"
+            android:src="@drawable/btn_check_off_holo_light"/>
+
+        </LinearLayout>
 
     <Button
         android:layout_width="match_parent"

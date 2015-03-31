@@ -26,4 +26,11 @@
         android:textSize="20sp" >
     </TextView>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/sensor_active_list"
+        android:id="@+id/sensor_active_list"/>
+
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class SensorListArrayAdapter extends ArrayAdapter<Sensor> {
             view = new ViewHolder();
             view.sensorName = (TextView) convertView.findViewById(R.id.sensorName);
             view.sensorTemp = (TextView) convertView.findViewById(R.id.sensorTemp);
+            view.sensorActive = (ImageView) convertView.findViewById(R.id.sensor_active_list);
 
             convertView.setTag(view);
         } else {
@@ -47,6 +49,11 @@ public class SensorListArrayAdapter extends ArrayAdapter<Sensor> {
         view.sensorName.setText(sensor.getName());
         view.sensorTemp.setText("" + sensor.getTemp());
 
+        if (sensor.getActive() == 1) {
+            view.sensorActive.setImageResource(R.drawable.btn_check_on_holo_light);
+        } else {
+            view.sensorActive.setImageResource(R.drawable.btn_check_off_holo_light);
+        }
 
         return convertView;
     }
@@ -54,5 +61,6 @@ public class SensorListArrayAdapter extends ArrayAdapter<Sensor> {
     protected static class ViewHolder {
         protected TextView sensorName;
         protected TextView sensorTemp;
+        protected ImageView sensorActive;
     }
 }
