@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -106,13 +107,21 @@ public class HomePage extends ListActivity implements LocationListener {
         }
 
 
-        SensorsDataSource datasource = new SensorsDataSource(this);
+        SensorsDataSource sensorDatasource = new SensorsDataSource(this);
         try {
-            datasource.open();
+            sensorDatasource.open();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        List<Sensor> sensors = datasource.getAllSensors();
+        List<Sensor> sensors = sensorDatasource.getAllSensors();
+        List<Sensor> activeSensors = new ArrayList<Sensor>();
+
+        for(int i=0; i<sensors.size(); i++){
+            Sensor tempSensor = sensors.get(i);
+            if (tempSensor.getActive() == 1){
+                activeSensors.add(tempSensor);
+            }
+        }
 
         TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4;
         txtSensor1 = (TextView)findViewById(R.id.sensor1);
@@ -120,24 +129,23 @@ public class HomePage extends ListActivity implements LocationListener {
         txtSensor3 = (TextView)findViewById(R.id.sensor3);
         txtSensor4 = (TextView)findViewById(R.id.sensor4);
 
-        if (sensors.size() > 3) {
-            txtSensor1.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
-            txtSensor2.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
-            txtSensor3.setText(sensors.get(2).getName() + "\n" + sensors.get(2).getTemp() + "\u00B0F");
-            txtSensor4.setText(sensors.get(3).getName() + "\n" + sensors.get(3).getTemp() + "\u00B0F");
-        } else if (sensors.size() == 3) {
-            txtSensor1.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
-            txtSensor2.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
-            txtSensor3.setText(sensors.get(2).getName() + "\n" + sensors.get(2).getTemp() + "\u00B0F");
-        } else if (sensors.size() == 2) {
-            txtSensor2.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
-            txtSensor3.setText(sensors.get(1).getName() + "\n" + sensors.get(1).getTemp() + "\u00B0F");
-        } else if (sensors.size() == 1) {
-            txtSensor2.setText(sensors.get(0).getName() + "\n" + sensors.get(0).getTemp() + "\u00B0F");
+        if (activeSensors.size() > 3) {
+            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
+            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
+            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + activeSensors.get(2).getTemp() + "\u00B0F");
+            txtSensor4.setText(activeSensors.get(3).getName() + "\n" + activeSensors.get(3).getTemp() + "\u00B0F");
+        } else if (activeSensors.size() == 3) {
+            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
+            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
+            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + activeSensors.get(2).getTemp() + "\u00B0F");
+        } else if (activeSensors.size() == 2) {
+            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
+            txtSensor3.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
+        } else if (activeSensors.size() == 1) {
+            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
         } else {
-            txtSensor1.setText("No");
-            txtSensor2.setText("sensors");
-            txtSensor3.setText("connected");
+            TextView sensorTitleText =(TextView)findViewById(R.id.activeSensorsTitle);
+            sensorTitleText.setText("No sensors active");
         }
     }
 
@@ -221,11 +229,6 @@ public class HomePage extends ListActivity implements LocationListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if (id == R.id.change_city) {
             showCityInputDialog();

@@ -64,12 +64,13 @@ public class Sensors extends ListActivity {
         Sensor sensor;
         switch (view.getId()) {
             case R.id.addSensor:
-                String[] testSensors = new String[] { "Livingroom", "Bedroom", "Hallway", "Porch",
+                String[] testSensors = new String[] { "Bedroom", "Hallway", "Porch",
                         "Foyer", "Kitchen", "Bathroom", "Basement" };
                 int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
                 int nextInt = new Random().nextInt(8);
+                int nextInt2 = new Random().nextInt(7);
                 // save the new comment to the database
-                sensor = datasource.createSensor(testSensors[nextInt], testTemps[nextInt], 0, 0);
+                sensor = datasource.createSensor(testSensors[nextInt2], testTemps[nextInt], 0, 0);
                 adapter.add(sensor);
                 break;
             case R.id.removeSensor:
@@ -99,9 +100,6 @@ public class Sensors extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

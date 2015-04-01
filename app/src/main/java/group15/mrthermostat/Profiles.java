@@ -119,8 +119,6 @@ public class Profiles extends ListActivity {
                 Intent intent = new Intent(this, ProfileDetails.class);
                 startActivity(intent);
                 break;
-            case R.id.action_settings:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

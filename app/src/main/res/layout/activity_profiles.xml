@@ -7,28 +7,38 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="group15.mrthermostat.Profiles">
+    tools:context="group15.mrthermostat.Profiles"
+    android:background="#fff3f3f3">
 
     <TextView
         android:text="Currently Active:"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="30dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="6dp"
+        android:background="@android:color/white"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="---"
         android:id="@+id/active_profile"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="40sp"/>
+        android:textSize="40sp"
+        android:background="@drawable/bg_card"/>
 
     <TextView
         android:text="Available Profiles:"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="6dp"
+        android:background="@android:color/white"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,7 +47,8 @@
         android:paddingLeft="24dp"
         android:paddingStart="24dp"
         android:paddingRight="0dp"
-        android:paddingEnd="0dp">
+        android:paddingEnd="0dp"
+        android:background="@drawable/bg_card">
 
         <ListView
             android:id="@android:id/list"

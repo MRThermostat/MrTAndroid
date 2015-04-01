@@ -269,8 +269,6 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         Context context = getApplicationContext();
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             case R.id.action_delete:
                 if(editingRule) {
                     rulesDatasource.deleteRule(currentRule);

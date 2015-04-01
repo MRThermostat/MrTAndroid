@@ -118,8 +118,6 @@ public class ProfileDetails extends ListActivity {
 
         Context context = getApplicationContext();
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             case R.id.action_delete:
                 if(editingProfile) {
                     profileDatasource.deleteProfile(currentProfile);

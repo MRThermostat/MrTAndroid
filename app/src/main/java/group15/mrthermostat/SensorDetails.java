@@ -100,8 +100,6 @@ public class SensorDetails extends Activity {
         Context context = getApplicationContext();
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             case R.id.action_delete:
                 sensorDatasource.deleteSensor(currentSensor);
                 Toast.makeText(context, "Profile Deleted", Toast.LENGTH_SHORT).show();

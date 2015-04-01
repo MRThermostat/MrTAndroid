@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".HomePage">
+    tools:context=".HomePage"
+    android:background="#fff3f3f3">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,13 +18,15 @@
         android:id="@+id/homePage_Date"
         android:gravity="center"
         android:textStyle="bold"
-        android:clickable="false" />
+        android:clickable="false"
+        android:background="@drawable/bg_card"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:id="@+id/weatherbox"/>
+        android:id="@+id/weatherbox"
+        android:background="@drawable/bg_card"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -32,10 +35,13 @@
         android:text="No Active Profile"
         android:id="@+id/currentProfile"
         android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
         android:clickable="true"
         android:onClick="openProfilesActivity"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -46,13 +52,16 @@
         android:paddingStart="24dp"
         android:paddingRight="0dp"
         android:paddingEnd="0dp"
-        android:onClick="openProfilesActivity">
+        android:onClick="openProfilesActivity"
+        android:background="@drawable/bg_card">
 
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hello" />
+            android:text="@string/hello"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10sp"/>
 
     </LinearLayout>
 
@@ -63,16 +72,21 @@
         android:text="Active Sensors:"
         android:id="@+id/activeSensorsTitle"
         android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
         android:clickable="true"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"
+        />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:clickable="true"
-        android:onClick="openSensorsActivity">
+        android:onClick="openSensorsActivity"
+        android:background="@drawable/bg_card">
 
         <TextView
             android:layout_width="0dp"
