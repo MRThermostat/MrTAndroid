@@ -21,6 +21,7 @@ public class ProfileDetails extends ListActivity {
 
     private ProfilesDataSource profileDatasource;
     private RulesDataSource ruleDatasource;
+    private TCUCommunication tcuComms;
     Profile currentProfile;
     Boolean profileExists = false;
     Boolean editingProfile = false;
@@ -184,10 +185,7 @@ public class ProfileDetails extends ListActivity {
                  if (newProfile.isEmpty()){
                      Toast.makeText(context, "Error: No blank profile names allowed", Toast.LENGTH_SHORT).show();
                  } else {
-                     if (profileExists) {
-                         Toast.makeText(context, "Error: Profile name already in use", Toast.LENGTH_SHORT).show();
-                         profileExists = false;
-                     } else if (editingProfile) {
+                     if (editingProfile) {
                          currentProfile.setName(newProfile);
                          profileDatasource.updateProfile(currentProfile);
 
@@ -198,8 +196,13 @@ public class ProfileDetails extends ListActivity {
                              ruleDatasource.updateRule(tempRule);
                          }
 
+                         packDBtoJSON();
+
                          Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();
+                     } else if (profileExists) {
+                        Toast.makeText(context, "Error: Profile name already in use", Toast.LENGTH_SHORT).show();
+                        profileExists = false;
                      } else {
                          profileDatasource.createProfile(newProfile);
                          Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
@@ -245,6 +248,15 @@ public class ProfileDetails extends ListActivity {
 
 
         startActivity(intent);
+    }
+
+    private void packDBtoJSON() {
+        final Context context = getApplicationContext();
+        new Thread(){
+            public void run(){
+                tcuComms.packJSON(context);
+            }
+        }.start();
     }
 
     public void openProfilesActivity() {
