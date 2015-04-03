@@ -274,4 +274,9 @@ public class ProfileDetails extends ListActivity {
         startActivity(intent);
     }*/
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, Profiles.class));
+    }
+
 }

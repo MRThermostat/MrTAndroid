@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by jacob on 3/23/15.
+ * applies a dual textbox layout to list items
  */
 public class RuleListArrayAdapter extends ArrayAdapter<Rule> {
 
@@ -79,7 +80,7 @@ public class RuleListArrayAdapter extends ArrayAdapter<Rule> {
 
         view.conditionField.setText("From " + startCond_h + ":" + startCond_m
                 + " until " + endCond_h + ":" + endCond_m);
-        view.settingField.setText(settingText);
+        view.settingField.setText(settingText +"\u00B0F");
 
         return convertView;
     }

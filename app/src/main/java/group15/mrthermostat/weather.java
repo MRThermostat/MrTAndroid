@@ -23,9 +23,12 @@ public class weather extends Fragment {
 
     Typeface weatherFont;
 
-    TextView cityField;
-    TextView detailsField;
-    TextView currentTemperatureField;
+    TextView leftTop;
+    TextView leftCenter;
+    TextView leftBottom;
+    TextView rightTop;
+    TextView rightCenter;
+    TextView rightBottom;
     TextView weatherIcon;
 
     Handler handler;
@@ -46,9 +49,12 @@ public class weather extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
 
-        cityField = (TextView)rootView.findViewById(R.id.weatherCity);
-        detailsField = (TextView)rootView.findViewById(R.id.weatherDetails);
-        currentTemperatureField = (TextView)rootView.findViewById(R.id.weatherTemp);
+        leftTop = (TextView)rootView.findViewById(R.id.weather_left_top);
+        leftCenter = (TextView)rootView.findViewById(R.id.weather_left_center);
+        leftBottom = (TextView)rootView.findViewById(R.id.weather_left_bottom);
+        rightTop = (TextView)rootView.findViewById(R.id.weather_right_top);
+        rightCenter = (TextView)rootView.findViewById(R.id.weather_right_center);
+        rightBottom = (TextView)rootView.findViewById(R.id.weather_right_bottom);
         weatherIcon = (TextView)rootView.findViewById(R.id.weatherImg);
 
         weatherIcon.setTypeface(weatherFont);
@@ -86,22 +92,19 @@ public class weather extends Fragment {
             JSONObject main = json.getJSONObject("main");
             JSONObject windStuff = json.getJSONObject("wind");
 
-            cityField.setText(json.getString("name").toUpperCase(Locale.US) +
-                    "\n" + details.getString("description").toUpperCase(Locale.US));
-            //", " +
-            //json.getJSONObject("sys").getString("country"));
-
             wind = String.format("%.0f", windStuff.getDouble("speed"));
-            detailsField.setText("Humidity: " + main.getString("humidity") + "%  " +
-                            "Wind: " + wind + "mph");
-                            //"-" + "Pressure: " + main.getString("pressure") + " hPa");
-
             tempCurr = String.format("%.0f", main.getDouble("temp"));
             tempHi = String.format("%.0f", main.getDouble("temp_max"));
             tempLow = String.format("%.0f", main.getDouble("temp_min"));
-            currentTemperatureField.setText("Current: " + tempCurr + "\u00B0F  " +
-                            "Hi: " + tempHi + "\u00B0F  " +
-                            "Low: " + tempLow + "\u00B0F");
+
+            leftTop.setText(json.getString("name").toUpperCase(Locale.US));
+            leftCenter.setText(details.getString("description").toUpperCase(Locale.US));
+            leftBottom.setText(tempCurr + "\u00B0F");
+            //json.getJSONObject("sys").getString("country"));
+
+            rightTop.setText("Hi: " + tempHi + "\u00B0F\nLow: " + tempLow + "\u00B0F");
+            rightCenter.setText("Humidity: " + main.getString("humidity") + "%");
+            rightBottom.setText("Wind: " + wind + "mph");
 
             //DateFormat df = DateFormat.getDateTimeInstance();
             //String updatedOn = df.format(new Date(json.getLong("dt")*1000));

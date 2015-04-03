@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:id="@+id/weatherImg"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textSize="50sp"
+    android:textSize="90sp"
     android:layout_weight="1"
     android:layout_marginRight="8dp"
     android:gravity="center"/>
@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="2"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginRight="8dp"
@@ -26,28 +26,74 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/weatherCity"
+            android:id="@+id/weather_left_top"
             android:gravity="left|center_vertical"
             android:textStyle="normal"
+            android:textSize="25sp"
+            android:clickable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weather_left_center"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/weatherDetails"
+            android:id="@+id/weather_left_bottom"
             android:gravity="left|center_vertical"
             android:textStyle="normal"
+            android:textSize="25sp"
+            android:clickable="false"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:gravity="center_vertical|left"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weather_right_top"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/weatherTemp"
+            android:id="@+id/weather_right_center"
             android:gravity="left|center_vertical"
             android:textStyle="normal"
+            android:textSize="25sp"
+            android:clickable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/weather_right_bottom"
+            android:gravity="left|center_vertical"
+            android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"/>
 
     </LinearLayout>

@@ -356,4 +356,9 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
                 */
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        openProfileDetailsActivity();
+    }
 }

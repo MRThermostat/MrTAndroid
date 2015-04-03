@@ -106,6 +106,41 @@ public class HomePage extends ListActivity implements LocationListener {
             txtActiveProfile.setText("No Currently Active Profile");
         }
 
+        TextView sysHeat = (TextView)findViewById(R.id.tcu_system_heat);
+        TextView sysCool = (TextView)findViewById(R.id.tcu_system_cool);
+        TextView sysBlow = (TextView)findViewById(R.id.tcu_system_blower);
+
+        TextView fanOn = (TextView)findViewById(R.id.tcu_fan_on);
+        TextView fanOff = (TextView)findViewById(R.id.tcu_fan_off);
+        TextView fanAuto = (TextView)findViewById(R.id.tcu_fan_auto);
+
+        if (appPrefs.getSystem().equals("heat")) {
+            sysHeat.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            sysCool.setBackgroundColor(getResources().getColor(android.R.color.white));
+            sysBlow.setBackgroundColor(getResources().getColor(android.R.color.white));
+        } else if (appPrefs.getSystem().equals("cool")) {
+            sysCool.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            sysHeat.setBackgroundColor(getResources().getColor(android.R.color.white));
+            sysBlow.setBackgroundColor(getResources().getColor(android.R.color.white));
+        } else {
+            sysBlow.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            sysHeat.setBackgroundColor(getResources().getColor(android.R.color.white));
+            sysCool.setBackgroundColor(getResources().getColor(android.R.color.white));
+        }
+
+        if (appPrefs.getFan().equals("on")) {
+            fanOn.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            fanOff.setBackgroundColor(getResources().getColor(android.R.color.white));
+            fanAuto.setBackgroundColor(getResources().getColor(android.R.color.white));
+        } else if (appPrefs.getFan().equals("off")) {
+            fanOff.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            fanOn.setBackgroundColor(getResources().getColor(android.R.color.white));
+            fanAuto.setBackgroundColor(getResources().getColor(android.R.color.white));
+        } else {
+            fanAuto.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+            fanOff.setBackgroundColor(getResources().getColor(android.R.color.white));
+            fanOn.setBackgroundColor(getResources().getColor(android.R.color.white));
+        }
 
         SensorsDataSource sensorDatasource = new SensorsDataSource(this);
         try {
@@ -343,5 +378,64 @@ public class HomePage extends ListActivity implements LocationListener {
 
         Intent intent = new Intent(this, Profiles.class);
         startActivity(intent);
+    }
+
+    public void onClick (View view) {
+        TextView sysHeat = (TextView)findViewById(R.id.tcu_system_heat);
+        TextView sysCool = (TextView)findViewById(R.id.tcu_system_cool);
+        TextView sysBlow = (TextView)findViewById(R.id.tcu_system_blower);
+
+        TextView fanOn = (TextView)findViewById(R.id.tcu_fan_on);
+        TextView fanOff = (TextView)findViewById(R.id.tcu_fan_off);
+        TextView fanAuto = (TextView)findViewById(R.id.tcu_fan_auto);
+
+        switch (view.getId()) {
+            case R.id.weatherbox:
+                showCityInputDialog();
+                break;
+
+            case R.id.tcu_system_heat:
+                sysHeat.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                sysCool.setBackgroundColor(getResources().getColor(android.R.color.white));
+                sysBlow.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setSystem("heat");
+                break;
+
+            case R.id.tcu_system_cool:
+                sysCool.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                sysHeat.setBackgroundColor(getResources().getColor(android.R.color.white));
+                sysBlow.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setSystem("cool");
+                break;
+
+            case R.id.tcu_system_blower:
+                sysBlow.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                sysHeat.setBackgroundColor(getResources().getColor(android.R.color.white));
+                sysCool.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setSystem("blow");
+                break;
+
+            case R.id.tcu_fan_on:
+                fanOn.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                fanOff.setBackgroundColor(getResources().getColor(android.R.color.white));
+                fanAuto.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setFan("on");
+                break;
+
+            case R.id.tcu_fan_off:
+                fanOff.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                fanOn.setBackgroundColor(getResources().getColor(android.R.color.white));
+                fanAuto.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setFan("off");
+                break;
+
+            case R.id.tcu_fan_auto:
+                fanAuto.setBackground(getResources().getDrawable(R.drawable.underline_selection));
+                fanOff.setBackgroundColor(getResources().getColor(android.R.color.white));
+                fanOn.setBackgroundColor(getResources().getColor(android.R.color.white));
+                appPrefs.setFan("auto");
+                break;
+
+        }
     }
 }

@@ -115,4 +115,9 @@ public class Sensors extends ListActivity {
         intent.putExtra("SENSOR_ID", sensorID);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, HomePage.class));
+    }
 }

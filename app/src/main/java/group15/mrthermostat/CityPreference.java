@@ -32,4 +32,10 @@ public class CityPreference {
 
     String getPassword() { return prefs.getString("password", "password");}
     void setPassword(String password) { prefs.edit().putString("password", password).apply();}
+
+    String getSystem() { return prefs.getString("system", "heat");}
+    void setSystem(String system) { prefs.edit().putString("system", system).apply();}
+
+    String getFan() { return prefs.getString("fan", "auto");}
+    void setFan(String fan) { prefs.edit().putString("fan", fan).apply();}
 }

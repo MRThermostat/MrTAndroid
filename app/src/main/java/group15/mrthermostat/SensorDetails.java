@@ -146,4 +146,9 @@ public class SensorDetails extends Activity {
             activeImage.setImageResource(R.drawable.btn_check_on_holo_light);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        openSensorsActivity();
+    }
 }

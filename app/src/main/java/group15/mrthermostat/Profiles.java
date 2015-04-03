@@ -125,4 +125,9 @@ public class Profiles extends ListActivity {
 
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, HomePage.class));
+    }
 }

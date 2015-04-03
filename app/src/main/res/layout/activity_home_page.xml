@@ -23,14 +23,15 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="170dp"
         android:id="@+id/weatherbox"
+        android:clickable="true"
+        android:onClick="onClick"
         android:background="@drawable/bg_card"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="No Active Profile"
         android:id="@+id/currentProfile"
@@ -38,6 +39,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
+        android:textSize="30sp"
         android:clickable="true"
         android:onClick="openProfilesActivity"
         android:layout_marginTop="16dp"
@@ -61,13 +63,166 @@
             android:layout_height="wrap_content"
             android:text="@string/hello"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10sp"/>
+            android:dividerHeight="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="125dp"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/bg_card">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tcu_system_title"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="System:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textSize="30sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_gravity="left|top"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/tcu_system_heat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Heat"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@drawable/underline_selection"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+                <TextView
+                    android:id="@+id/tcu_system_cool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Cool"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+                <TextView
+                    android:id="@+id/tcu_system_blower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Blower"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:background="@drawable/bg_card">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tcu_fan_title"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="Fan:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textSize="30sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_gravity="left|top"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/tcu_fan_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="On"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@drawable/underline_selection"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+                <TextView
+                    android:id="@+id/tcu_fan_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Off"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+                <TextView
+                    android:id="@+id/tcu_fan_auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Auto"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:onClick="onClick"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Active Sensors:"
         android:id="@+id/activeSensorsTitle"
@@ -75,6 +230,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
+        android:textSize="30sp"
         android:clickable="true"
         android:layout_marginTop="16dp"
         android:background="@android:color/white"
@@ -83,7 +239,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:clickable="true"
         android:onClick="openSensorsActivity"
         android:background="@drawable/bg_card">
@@ -96,6 +252,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"/>
@@ -108,6 +265,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"/>
@@ -120,6 +278,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"/>
@@ -132,6 +291,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="normal"
+            android:textSize="25sp"
             android:clickable="false"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="6dp"/>
