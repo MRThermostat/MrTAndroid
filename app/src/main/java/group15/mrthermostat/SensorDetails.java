@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,27 @@ public class SensorDetails extends Activity {
 
         nameEdit = (EditText)findViewById(R.id.sensor_name_edit);
         nameEdit.setText(currentSensor.getName(), TextView.BufferType.EDITABLE);
+
+        nameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                for (int i = editable.length(); i>0; i--){
+                    if (editable.subSequence(i-1, i).toString().equals("\n"))
+                        editable.replace(i-1,i, "");
+                }
+                //String fixedString = editable.toString();
+            }
+        });
 
         tempText = (TextView)findViewById(R.id.sensor_temp);
         tempText.setText(currentSensor.getTemp()+"\u00B0F");

@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,8 +41,29 @@ public class ProfileDetails extends ListActivity {
         profile_name = intent.getStringExtra("PROFILE_NAME");
         Log.d("CAD", "String EXTRA is: " + profile_name);
 
-        EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
+        final EditText nameEdit = (EditText)findViewById(R.id.profileNameEdit);
         nameEdit.setText(profile_name, TextView.BufferType.EDITABLE);
+
+        nameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                for (int i = editable.length(); i>0; i--){
+                    if (editable.subSequence(i-1, i).toString().equals("\n"))
+                        editable.replace(i-1,i, "");
+                }
+                //String fixedString = editable.toString();
+            }
+        });
 
         profileDatasource = new ProfilesDataSource(this);
         try {

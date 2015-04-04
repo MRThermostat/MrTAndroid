@@ -307,7 +307,7 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
                     Toast.makeText(context, "Rule Updated", Toast.LENGTH_SHORT).show();
                     openProfileDetailsActivity();
                 } else {
-                    rulesDatasource.createRule(ruleOwner,"Time",startCond,endCond,setting);
+                    rulesDatasource.createRule(ruleOwner,"Time",startCond,endCond,70);
                     Toast.makeText(context, "Rule Updated", Toast.LENGTH_SHORT).show();
                     openProfileDetailsActivity();
                 }

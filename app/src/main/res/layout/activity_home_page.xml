@@ -70,7 +70,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="125dp"
+        android:layout_height="135dp"
         android:layout_marginTop="16dp">
 
         <LinearLayout
@@ -103,7 +103,7 @@
                 <TextView
                     android:id="@+id/tcu_system_heat"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="Heat"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -117,7 +117,7 @@
                 <TextView
                     android:id="@+id/tcu_system_cool"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="Cool"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -131,7 +131,7 @@
                 <TextView
                     android:id="@+id/tcu_system_blower"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="Blower"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -175,7 +175,7 @@
                 <TextView
                     android:id="@+id/tcu_fan_on"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="On"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -189,7 +189,7 @@
                 <TextView
                     android:id="@+id/tcu_fan_off"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="Off"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -203,7 +203,7 @@
                 <TextView
                     android:id="@+id/tcu_fan_auto"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:text="Auto"
                     android:textStyle="bold"
                     android:textSize="25sp"
