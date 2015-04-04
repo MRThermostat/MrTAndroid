@@ -2,6 +2,7 @@ package group15.mrthermostat;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -39,7 +40,9 @@ public class HomePage extends ListActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        appPrefs = new CityPreference(this);
+        Context context = getApplicationContext();
+
+        appPrefs = new CityPreference(context);
 
         //Set date and time
         String currentDateAndTime = DateFormat.getDateTimeInstance().format(new Date());

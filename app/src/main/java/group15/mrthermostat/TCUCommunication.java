@@ -1,13 +1,19 @@
 package group15.mrthermostat;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jacob on 4/1/15.
@@ -16,8 +22,8 @@ import java.util.List;
  */
 public class TCUCommunication {
 
-    private static final String OPEN_WEATHER_MAP_API =
-            "http://api.openweathermap.org/data/2.5/weather?q=%s&units=imperial";
+    private static final String TCU_IP = "192.168.4.1";
+    public static CityPreference appPrefs;
 
     public static void packJSON(Context context) {
 
@@ -45,7 +51,20 @@ public class TCUCommunication {
         List<Profile> allProfs = profileDatasource.getAllProfiles();
         List<Sensor> allSensors = sensorDatasource.getAllSensors();
 
+        appPrefs = new CityPreference(context);
+        String tcuSystem = appPrefs.getSystem();
+        System.out.println(tcuSystem);
+        String tcuFan = appPrefs.getFan();
+        System.out.println(tcuFan);
+
         JSONObject jsonToGo = new JSONObject();
+
+        try{
+            jsonToGo.put("system",tcuSystem);
+            jsonToGo.put("fan",tcuFan);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
 
         JSONArray profileJSONArray = new JSONArray();
 
@@ -110,5 +129,70 @@ public class TCUCommunication {
 
         String jsonToGoStr = jsonToGo.toString();
         System.out.println(jsonToGoStr);
+    }
+
+    public static JSONObject getJSON(Context context) {
+        try {
+            URL url = new URL(String.format(TCU_IP));
+            HttpURLConnection connection =
+                    (HttpURLConnection) url.openConnection();
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+
+            StringBuffer json = new StringBuffer(2048);
+            String tmp;
+            while ((tmp = reader.readLine()) != null)
+                json.append(tmp).append("\n");
+            reader.close();
+
+            JSONObject data = new JSONObject(json.toString());
+
+            // This value will be 404 if the request was not
+            // successful
+            if (data.getInt("cod") != 200) {
+                return null;
+            }
+
+            return data;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void parseJSON(JSONObject json){
+        String tempHi, tempLow, tempCurr, wind;
+
+        try {
+            String tcu_system = json.getString("system");
+            String tcu_fan = json.getString("fan");
+
+            JSONArray profiles = json.getJSONArray("profileList");
+            for(int i=0; i<profiles.length(); i++){
+                JSONObject profile = profiles.getJSONObject(i);
+                String name = profile.getString("name");
+                int active = profile.getInt("active");
+
+                JSONArray rules = profile.getJSONArray("profileRulesList");
+                for(int j=0; j<rules.length(); j++){
+                    JSONObject rule = rules.getJSONObject(j);
+                    int setting = rule.getInt("setting");
+                    int startCond = rule.getInt("start_condition");
+                    int endCond = rule.getInt("end_condition");
+                    String type = rule.getString("type");
+                    String parentProf = rule.getString("Parent_Name");
+                }
+            }
+
+            JSONArray sensors = json.getJSONArray("sensorList");
+            for(int i=0; i<sensors.length(); i++){
+                JSONObject sensor = sensors.getJSONObject(i);
+                String name = sensor.getString("name");
+                int active = sensor.getInt("active");
+                int temp = sensor.getInt("temperature");
+            }
+        }catch(Exception e){
+            Log.e("JSONParsing", "One or more fields not found in the JSON data");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package group15.mrthermostat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -10,9 +11,11 @@ import android.content.SharedPreferences;
  */
 public class CityPreference {
     SharedPreferences prefs;
+    private static String prefsFileName = "prefs";
 
-    public CityPreference(Activity activity){
-        prefs = activity.getPreferences(Activity.MODE_PRIVATE);
+    public CityPreference(Context context){
+        //prefs = activity.getPreferences(Activity.MODE_PRIVATE);
+        prefs = context.getSharedPreferences(prefsFileName, Context.MODE_PRIVATE);
     }
 
     // If the user has not chosen a city yet, return
