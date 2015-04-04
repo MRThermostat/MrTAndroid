@@ -77,9 +77,9 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
         Spinner spinner = (Spinner) findViewById(R.id.ruleTypeSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.rule_type_list, android.R.layout.simple_spinner_item);
+                R.array.rule_type_list, R.layout.spinner_item_layout);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item_layout);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
@@ -175,7 +175,7 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
     private void updateStartTimeUI() {
         String hour = (startHour > 9) ? ""+startHour: "0"+startHour ;
         String minutes = (startMinutes > 9) ?""+startMinutes : "0"+startMinutes;
-        txtTimeStart.setText("START:  "+ hour+":"+minutes);
+        txtTimeStart.setText("START:\t"+ hour+":"+minutes);
 
         String txtTimeMilitary = hour + minutes;
         startCond = Integer.parseInt(txtTimeMilitary);
@@ -184,7 +184,7 @@ public class ProfileRules extends Activity implements NumberPicker.OnValueChange
     private void updateEndTimeUI() {
         String hour = (endHour > 9) ? ""+endHour: "0"+endHour ;
         String minutes = (endMinutes > 9) ?""+endMinutes : "0"+endMinutes;
-        txtTimeEnd.setText("END:      "+ hour+":"+minutes);
+        txtTimeEnd.setText("END:\t"+ hour+":"+minutes);
 
         String txtTimeMilitary = hour + minutes;
         endCond = Integer.parseInt(txtTimeMilitary);

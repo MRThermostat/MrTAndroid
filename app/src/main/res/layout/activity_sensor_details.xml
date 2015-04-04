@@ -11,21 +11,22 @@
         android:text="Sensor Name:"
         android:layout_width="match_parent"
         android:id="@+id/sensor_name_label"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="6dp"
+        android:textSize="25sp"
         android:background="@android:color/white"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/sensor_name_label"
         android:id="@+id/sensor_name_edit"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:textSize="50sp"
         android:hint="Sensor Name"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
@@ -35,21 +36,22 @@
         android:text="Temperature:"
         android:layout_width="match_parent"
         android:id="@+id/sensor_temp_label"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/sensor_name_edit"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="6dp"
+        android:textSize="25sp"
         android:background="@android:color/white"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/sensor_temp_label"
         android:id="@+id/sensor_temp"
         android:gravity="center"
-        android:textSize="30sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:text="54\u00B0F"
         android:paddingLeft="24dp"
@@ -60,17 +62,18 @@
         android:text="Status:"
         android:layout_width="match_parent"
         android:id="@+id/sensor_status_label"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/sensor_temp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="6dp"
+        android:textSize="25sp"
         android:background="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/sensor_status_label"
         android:gravity="center_vertical"
         android:onClick="toggleSensorActive"
@@ -85,7 +88,7 @@
             android:layout_weight="3"
             android:id="@+id/sensor_active"
             android:gravity="center_vertical|start"
-            android:textSize="30sp"
+            android:textSize="45sp"
             android:textStyle="bold"
             android:text="Inactive"/>
 
@@ -93,6 +96,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:id="@+id/sensor_active_image"
             android:contentDescription="@string/sensor_active_list"
             android:src="@drawable/btn_check_off_holo_light"/>
@@ -101,11 +105,12 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/save_sensor_button"
         android:text="Save"
         android:textStyle="bold"
+        android:textSize="30sp"
         android:onClick="onClick"/>
 
 </RelativeLayout>

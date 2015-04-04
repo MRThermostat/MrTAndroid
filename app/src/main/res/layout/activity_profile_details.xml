@@ -13,43 +13,34 @@
     <TextView
         android:text="Profile Name:"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="6dp"
+        android:textSize="20sp"
         android:background="@android:color/white"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:id="@+id/profileNameEdit"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:textSize="50sp"
         android:hint="Profile Name"
-        android:background="@drawable/bg_card"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/profile_active"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Inactive"
         android:background="@drawable/bg_card"/>
 
     <TextView
         android:text="Rules:"
         android:layout_width="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="40dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="6dp"
+        android:textSize="20sp"
         android:background="@android:color/white"/>
 
     <LinearLayout
@@ -73,20 +64,34 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/profile_active"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:text="Inactive"
+        android:background="@drawable/bg_card"/>
+
     <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/set_profile_active_button"
         android:text="Set as Active"
         android:textStyle="bold"
+        android:textSize="25sp"
         android:onClick="onClick"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:id="@+id/SaveProfileButton"
         android:text="Save"
         android:textStyle="bold"
+        android:textSize="25sp"
         android:onClick="onClick"/>
 
 </LinearLayout>

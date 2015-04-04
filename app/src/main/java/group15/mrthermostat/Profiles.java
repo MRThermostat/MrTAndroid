@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,7 +48,15 @@ public class Profiles extends ListActivity {
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         ArrayAdapter<Profile> adapter = new ArrayAdapter<Profile>(this,
-                android.R.layout.simple_list_item_1, allProfs);
+                android.R.layout.simple_list_item_1, allProfs){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextSize(30);
+                return view;
+            }
+        };
         setListAdapter(adapter);
     }
 
