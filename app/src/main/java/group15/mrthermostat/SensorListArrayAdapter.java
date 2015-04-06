@@ -47,7 +47,9 @@ public class SensorListArrayAdapter extends ArrayAdapter<Sensor> {
         // Assign the data
         Sensor sensor = values.get(position);
         view.sensorName.setText(sensor.getName());
-        view.sensorTemp.setText("" + sensor.getTemp());
+
+        float tempDecimal = sensor.getTemp()/((float)10);
+        view.sensorTemp.setText("" + tempDecimal);
 
         if (sensor.getActive() == 1) {
             view.sensorActive.setImageResource(R.drawable.btn_check_on_holo_light);

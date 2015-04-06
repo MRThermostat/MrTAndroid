@@ -75,7 +75,9 @@ public class SensorDetails extends Activity {
         });
 
         tempText = (TextView)findViewById(R.id.sensor_temp);
-        tempText.setText(currentSensor.getTemp()+"\u00B0F");
+        float tempDecimal = currentSensor.getTemp()/((float)10);
+
+        tempText.setText(tempDecimal+"\u00B0F");
 
         activeText = (TextView)findViewById(R.id.sensor_active);
         activeImage = (ImageView)findViewById(R.id.sensor_active_image);

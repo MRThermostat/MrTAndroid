@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -161,16 +164,6 @@ public class ProfileDetails extends ListActivity {
                 }*/
                 break;
             case R.id.action_add:
-                /*int[] testRules = new int[] { 800, 1200, 1400, 1800, 2200, 200, 400, 600};
-                int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
-                int nextInt = new Random().nextInt(8);
-                int nextInt2 = new Random().nextInt(8);
-                String profName = currentProfile.getName();
-
-                rule = ruleDatasource.createRule(profName, "Time", testRules[nextInt], testRules[nextInt2], testTemps[nextInt]);
-                adapter.add(rule);*/
-
-
                 if(editingProfile) {
                     String profName = currentProfile.getName();
 
@@ -228,6 +221,7 @@ public class ProfileDetails extends ListActivity {
                         profileExists = false;
                      } else {
                          profileDatasource.createProfile(newProfile);
+                         ruleDatasource.createRule(newProfile,"Time",0,0,70);
                          Toast.makeText(context, "New Profile Created", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();
                      }
@@ -277,7 +271,9 @@ public class ProfileDetails extends ListActivity {
         final Context context = getApplicationContext();
         new Thread(){
             public void run(){
-                tcuComms.packJSON(context);
+                JSONObject jsonToGo = tcuComms.packJSON(context);
+                System.out.println("Got JSONObject: " + jsonToGo.toString());
+                parseJSON(jsonToGo);
             }
         }.start();
     }
@@ -302,4 +298,49 @@ public class ProfileDetails extends ListActivity {
         startActivity(new Intent(this, Profiles.class));
     }
 
+    public void parseJSON(JSONObject json){
+        System.out.println("In Parser");
+
+        try {
+            String tcu_system = json.getString("system");
+            String tcu_fan = json.getString("fan");
+
+            System.out.println("System: "+tcu_system + "  Fan: "+tcu_fan);
+
+            JSONArray profiles = json.getJSONArray("profileList");
+            for(int i=0; i<profiles.length(); i++){
+                JSONObject profile = profiles.getJSONObject(i);
+                String name = profile.getString("name");
+                int active = profile.getInt("active");
+
+                System.out.println("Profile "+i + " - Profile Name: "+name + "  Active: "+active);
+
+                JSONArray rules = profile.getJSONArray("profileRulesList");
+                for(int j=0; j<rules.length(); j++){
+                    JSONObject rule = rules.getJSONObject(j);
+                    int setting = rule.getInt("setting");
+                    int startCond = rule.getInt("start_condition");
+                    int endCond = rule.getInt("end_condition");
+                    String type = rule.getString("type");
+                    String parentProf = rule.getString("Profile_Name");
+
+                    System.out.println("Rule "+j + " - Type: "+type + "  End Condition: "+endCond
+                            + "  Start Condition: "+startCond + "  Setting: "+setting);
+                }
+            }
+
+            JSONArray sensors = json.getJSONArray("sensorList");
+            for(int i=0; i<sensors.length(); i++){
+                JSONObject sensor = sensors.getJSONObject(i);
+                String name = sensor.getString("name");
+                int active = sensor.getInt("active");
+                int temp = sensor.getInt("temperature");
+
+                System.out.println("Sensor "+i + " - Sensor Name: "+name + "  Active: "+active
+                        + "  Temperature: "+temp);
+            }
+        }catch(Exception e){
+            Log.e("JSONParsing", "One or more fields not found in the JSON data");
+        }
+    }
 }

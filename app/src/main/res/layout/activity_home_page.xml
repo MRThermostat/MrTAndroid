@@ -232,6 +232,7 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:clickable="true"
+        android:onClick="clearDatabase"
         android:layout_marginTop="16dp"
         android:background="@android:color/white"
         />
@@ -298,5 +299,15 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/active_average"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:clickable="false"
+        android:background="@drawable/bg_card"/>
 
 </LinearLayout>

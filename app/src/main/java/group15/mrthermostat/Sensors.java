@@ -66,7 +66,7 @@ public class Sensors extends ListActivity {
             case R.id.addSensor:
                 String[] testSensors = new String[] { "Bedroom", "Hallway", "Porch",
                         "Foyer", "Kitchen", "Bathroom", "Basement" };
-                int[] testTemps = new int[] {50,55,60,65,70,75,80,85};
+                int[] testTemps = new int[] {505,556,601,652,704,752,805,859};
                 int nextInt = new Random().nextInt(8);
                 int nextInt2 = new Random().nextInt(7);
                 // save the new comment to the database

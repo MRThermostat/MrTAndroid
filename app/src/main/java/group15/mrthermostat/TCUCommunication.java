@@ -3,13 +3,23 @@ package group15.mrthermostat;
 import android.content.Context;
 import android.util.Log;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,9 +33,10 @@ import java.util.Locale;
 public class TCUCommunication {
 
     private static final String TCU_IP = "192.168.4.1";
+    private static final int TCU_PORT = 80;
     public static CityPreference appPrefs;
 
-    public static void packJSON(Context context) {
+    public static JSONObject packJSON(Context context) {
 
         ProfilesDataSource profileDatasource = new ProfilesDataSource(context);
         try {
@@ -129,11 +140,12 @@ public class TCUCommunication {
 
         String jsonToGoStr = jsonToGo.toString();
         System.out.println(jsonToGoStr);
+        return jsonToGo;
     }
 
     public static JSONObject getJSON(Context context) {
         try {
-            URL url = new URL(String.format(TCU_IP));
+            URL url = new URL(TCU_IP);
             HttpURLConnection connection =
                     (HttpURLConnection) url.openConnection();
 
@@ -160,18 +172,40 @@ public class TCUCommunication {
         }
     }
 
-    private void parseJSON(JSONObject json){
-        String tempHi, tempLow, tempCurr, wind;
+    public void sendJSON (JSONObject json) {
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPostRqst = new HttpPost(TCU_IP);
+
+        try {
+            StringEntity jsonString = new StringEntity(json.toString());
+            jsonString.setContentType("application/json;charset=UTF-8");
+            jsonString.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
+
+            httpPostRqst.setEntity(jsonString);
+            HttpResponse httpResponse = httpClient.execute(httpPostRqst);
+        } catch (Exception e){
+            Log.e("HttpPost", "Your stuff's broken.");
+        }
+    }
+
+    /*
+    public void parseJSON(JSONObject json){
+        System.out.println("In Parser");
 
         try {
             String tcu_system = json.getString("system");
             String tcu_fan = json.getString("fan");
+
+            System.out.println("System: "+tcu_system + "  Fan: "+tcu_fan);
 
             JSONArray profiles = json.getJSONArray("profileList");
             for(int i=0; i<profiles.length(); i++){
                 JSONObject profile = profiles.getJSONObject(i);
                 String name = profile.getString("name");
                 int active = profile.getInt("active");
+
+                System.out.println("Profile "+i + " - Profile Name: "+name + "  Active: "+active);
 
                 JSONArray rules = profile.getJSONArray("profileRulesList");
                 for(int j=0; j<rules.length(); j++){
@@ -180,7 +214,10 @@ public class TCUCommunication {
                     int startCond = rule.getInt("start_condition");
                     int endCond = rule.getInt("end_condition");
                     String type = rule.getString("type");
-                    String parentProf = rule.getString("Parent_Name");
+                    String parentProf = rule.getString("Profile_Name");
+
+                    System.out.println("Rule "+j + " - Type: "+type + "  End Condition: "+endCond
+                            + "  Start Condition: "+startCond + "  Setting: "+setting);
                 }
             }
 
@@ -190,9 +227,13 @@ public class TCUCommunication {
                 String name = sensor.getString("name");
                 int active = sensor.getInt("active");
                 int temp = sensor.getInt("temperature");
+
+                System.out.println("Sensor "+i + " - Sensor Name: "+name + "  Active: "+active
+                        + "  Temperature: "+temp);
             }
         }catch(Exception e){
             Log.e("JSONParsing", "One or more fields not found in the JSON data");
         }
     }
+    */
 }

@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ import java.util.List;
 
 
 public class HomePage extends ListActivity implements LocationListener {
+
+    private SQLiteDatabase database;
+    private MySQLiteHelper dbHelper;
 
     //private TextView cordsField;
     //private TextView longitudeField;
@@ -154,33 +158,53 @@ public class HomePage extends ListActivity implements LocationListener {
         List<Sensor> sensors = sensorDatasource.getAllSensors();
         List<Sensor> activeSensors = new ArrayList<Sensor>();
 
+        float activeSum=0;
+        int activeCount=0;
+
         for(int i=0; i<sensors.size(); i++){
             Sensor tempSensor = sensors.get(i);
             if (tempSensor.getActive() == 1){
                 activeSensors.add(tempSensor);
+                activeCount++;
+                activeSum += tempSensor.getTemp();
             }
         }
+        float activeAvg = activeSum/activeCount/10;
 
-        TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4;
+        TextView txtSensor1, txtSensor2, txtSensor3, txtSensor4, txtActAvg;
         txtSensor1 = (TextView)findViewById(R.id.sensor1);
         txtSensor2 = (TextView)findViewById(R.id.sensor2);
         txtSensor3 = (TextView)findViewById(R.id.sensor3);
         txtSensor4 = (TextView)findViewById(R.id.sensor4);
+        txtActAvg = (TextView)findViewById(R.id.active_average);
+        float tempDecimal;
+
+        txtActAvg.setText("Current Active Average: "+activeAvg+"\u00B0F");
 
         if (activeSensors.size() > 3) {
-            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
-            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
-            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + activeSensors.get(2).getTemp() + "\u00B0F");
-            txtSensor4.setText(activeSensors.get(3).getName() + "\n" + activeSensors.get(3).getTemp() + "\u00B0F");
+            tempDecimal = activeSensors.get(0).getTemp()/((float)10);
+            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(1).getTemp()/((float)10);
+            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(2).getTemp()/((float)10);
+            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(3).getTemp()/((float)10);
+            txtSensor4.setText(activeSensors.get(3).getName() + "\n" + tempDecimal + "\u00B0F");
         } else if (activeSensors.size() == 3) {
-            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
-            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
-            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + activeSensors.get(2).getTemp() + "\u00B0F");
+            tempDecimal = activeSensors.get(0).getTemp()/((float)10);
+            txtSensor1.setText(activeSensors.get(0).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(1).getTemp()/((float)10);
+            txtSensor2.setText(activeSensors.get(1).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(2).getTemp()/((float)10);
+            txtSensor3.setText(activeSensors.get(2).getName() + "\n" + tempDecimal + "\u00B0F");
         } else if (activeSensors.size() == 2) {
-            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
-            txtSensor3.setText(activeSensors.get(1).getName() + "\n" + activeSensors.get(1).getTemp() + "\u00B0F");
+            tempDecimal = activeSensors.get(0).getTemp()/((float)10);
+            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + tempDecimal + "\u00B0F");
+            tempDecimal = activeSensors.get(1).getTemp()/((float)10);
+            txtSensor3.setText(activeSensors.get(1).getName() + "\n" + tempDecimal + "\u00B0F");
         } else if (activeSensors.size() == 1) {
-            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + activeSensors.get(0).getTemp() + "\u00B0F");
+            tempDecimal = activeSensors.get(0).getTemp()/((float)10);
+            txtSensor2.setText(activeSensors.get(0).getName() + "\n" + tempDecimal + "\u00B0F");
         } else {
             TextView sensorTitleText =(TextView)findViewById(R.id.activeSensorsTitle);
             sensorTitleText.setText("No sensors active");
@@ -440,5 +464,13 @@ public class HomePage extends ListActivity implements LocationListener {
                 break;
 
         }
+    }
+
+    public void clearDatabase(View view){
+        database = dbHelper.getWritableDatabase();
+        //database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_PROFILES);
+        database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_SENSORS);
+        //database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_RULES);
+        dbHelper.onCreate(database);
     }
 }
