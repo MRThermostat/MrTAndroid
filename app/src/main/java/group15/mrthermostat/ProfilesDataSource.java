@@ -52,6 +52,23 @@ public class ProfilesDataSource {
         return newProfile;
     }
 
+    public Profile createProfile(String name, int active) {
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_NAME, name);
+        values.put(MySQLiteHelper.COLUMN_ACTIVE, active);
+        values.put(MySQLiteHelper.COLUMN_TID, 0);
+
+        long insertId = database.insert(MySQLiteHelper.TABLE_PROFILES, null,
+                values);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PROFILES,
+                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+        Profile newProfile = cursorToName(cursor);
+        cursor.close();
+        return newProfile;
+    }
+
     public void updateProfile(Profile profile) {
         long id = profile.getId();
         String name = profile.getName();

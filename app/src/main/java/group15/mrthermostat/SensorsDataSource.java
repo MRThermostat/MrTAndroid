@@ -39,7 +39,7 @@ public class SensorsDataSource {
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_TEMPERATURE, temp);
         values.put(MySQLiteHelper.COLUMN_ACTIVE, active);
-        values.put(MySQLiteHelper.COLUMN_ACTIVE, tId);
+        values.put(MySQLiteHelper.COLUMN_TID, tId);
 
         long insertId = database.insert(MySQLiteHelper.TABLE_SENSORS, null,
                 values);

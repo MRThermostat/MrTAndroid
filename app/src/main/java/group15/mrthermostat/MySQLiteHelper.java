@@ -73,4 +73,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RULES);
         onCreate(db);
     }
+
+    public void clearDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SENSORS,null,null);
+        db.delete(TABLE_PROFILES,null,null);
+        db.delete(TABLE_RULES,null,null);
+    }
 }

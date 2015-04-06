@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -28,13 +32,16 @@ import java.util.List;
 
 public class HomePage extends ListActivity implements LocationListener {
 
-    private SQLiteDatabase database;
-    private MySQLiteHelper dbHelper;
-
     //private TextView cordsField;
     //private TextView longitudeField;
     //private LocationManager locationManager;
     //private String provider;
+
+    TCUCommunication tcuComms;
+
+    ProfilesDataSource profilesDatasource;
+    RulesDataSource ruleDatasource;
+    SensorsDataSource sensorDatasource;
     Profile activeProfile;
 
     CityPreference appPrefs;
@@ -45,6 +52,9 @@ public class HomePage extends ListActivity implements LocationListener {
         setContentView(R.layout.activity_home_page);
 
         Context context = getApplicationContext();
+
+        JSONObject jsonToGo = tcuComms.packJSON(context);
+        clearDatabase();
 
         appPrefs = new CityPreference(context);
 
@@ -79,12 +89,30 @@ public class HomePage extends ListActivity implements LocationListener {
         //    //longitudeField.setText("Location not available");
         //}
 
-        ProfilesDataSource profilesDatasource = new ProfilesDataSource(this);
+        profilesDatasource = new ProfilesDataSource(this);
         try {
             profilesDatasource.open();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        ruleDatasource = new RulesDataSource(this);
+        try {
+            ruleDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sensorDatasource = new SensorsDataSource(this);
+        try {
+            sensorDatasource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        parseJSON(jsonToGo);
+
+
         List<Profile> allProfs = profilesDatasource.getAllProfiles();
 
         TextView txtActiveProfile = (TextView)findViewById(R.id.currentProfile);
@@ -98,13 +126,6 @@ public class HomePage extends ListActivity implements LocationListener {
             String profile_name = activeProfile.getName();
             txtActiveProfile = (TextView)findViewById(R.id.currentProfile);
             txtActiveProfile.setText(activeProfile.getName() + ":");
-
-            RulesDataSource ruleDatasource = new RulesDataSource(this);
-            try {
-                ruleDatasource.open();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
             List<Rule> rules = ruleDatasource.getProfileRules(profile_name);
             RuleListArrayAdapter adapter = new RuleListArrayAdapter(this, rules);
@@ -149,12 +170,6 @@ public class HomePage extends ListActivity implements LocationListener {
             fanOn.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
 
-        SensorsDataSource sensorDatasource = new SensorsDataSource(this);
-        try {
-            sensorDatasource.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         List<Sensor> sensors = sensorDatasource.getAllSensors();
         List<Sensor> activeSensors = new ArrayList<Sensor>();
 
@@ -466,11 +481,64 @@ public class HomePage extends ListActivity implements LocationListener {
         }
     }
 
-    public void clearDatabase(View view){
-        database = dbHelper.getWritableDatabase();
-        //database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_PROFILES);
-        database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_SENSORS);
-        //database.execSQL("DROP TABLE IF EXISTS " + MySQLiteHelper.TABLE_RULES);
-        dbHelper.onCreate(database);
+    public void clearDatabase(){
+        Context context = getApplicationContext();
+        MySQLiteHelper myDB = new MySQLiteHelper(context);
+        myDB.clearDB();
+    }
+
+    public void parseJSON(JSONObject json) {
+        System.out.println("In Parser");
+
+        try {
+            String tcu_system = json.getString("system");
+            String tcu_fan = json.getString("fan");
+
+            appPrefs.setSystem(tcu_system);
+            appPrefs.setFan(tcu_fan);
+
+            System.out.println("System: " + tcu_system + "  Fan: " + tcu_fan);
+
+            JSONArray profiles = json.getJSONArray("profileList");
+            for (int i = 0; i < profiles.length(); i++) {
+                JSONObject profile = profiles.getJSONObject(i);
+                String name = profile.getString("name");
+                int active = profile.getInt("active");
+
+                profilesDatasource.createProfile(name, active);
+
+                System.out.println("Profile " + i + " - Profile Name: " + name + "  Active: " + active);
+
+                JSONArray rules = profile.getJSONArray("profileRulesList");
+                for (int j = 0; j < rules.length(); j++) {
+                    JSONObject rule = rules.getJSONObject(j);
+                    int setting = rule.getInt("setting");
+                    int startCond = rule.getInt("start_condition");
+                    int endCond = rule.getInt("end_condition");
+                    String type = rule.getString("type");
+                    String parentProf = rule.getString("Profile_Name");
+
+                    ruleDatasource.createRule(parentProf,type,startCond,endCond,setting);
+
+                    System.out.println("Rule " + j + " - Type: " + type + "  End Condition: " + endCond
+                            + "  Start Condition: " + startCond + "  Setting: " + setting);
+                }
+            }
+
+            JSONArray sensors = json.getJSONArray("sensorList");
+            for (int i = 0; i < sensors.length(); i++) {
+                JSONObject sensor = sensors.getJSONObject(i);
+                String name = sensor.getString("name");
+                int active = sensor.getInt("active");
+                int temp = sensor.getInt("temperature");
+
+                sensorDatasource.createSensor(name,temp,active,0);
+
+                System.out.println("Sensor " + i + " - Sensor Name: " + name + "  Active: " + active
+                        + "  Temperature: " + temp);
+            }
+        } catch (Exception e) {
+            Log.e("JSONParsing", "One or more fields not found in the JSON data");
+        }
     }
 }

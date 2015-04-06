@@ -232,7 +232,7 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:clickable="true"
-        android:onClick="clearDatabase"
+        android:onClick="openSensorsActivity"
         android:layout_marginTop="16dp"
         android:background="@android:color/white"
         />
