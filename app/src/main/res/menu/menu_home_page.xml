@@ -16,4 +16,10 @@
         android:orderInCategory="1"
         android:title="@string/user_login"
         android:showAsAction="never"/>
+
+    <item
+        android:id="@+id/send_data"
+        android:orderInCategory="1"
+        android:title="Send Data"
+        android:showAsAction="never"/>
 </menu>

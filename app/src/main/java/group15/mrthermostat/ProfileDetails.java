@@ -212,7 +212,7 @@ public class ProfileDetails extends ListActivity {
                              ruleDatasource.updateRule(tempRule);
                          }
 
-                         packDBtoJSON();
+                         //packDBtoJSON();
 
                          Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
                          openProfilesActivity();

@@ -20,9 +20,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -53,8 +64,9 @@ public class HomePage extends ListActivity implements LocationListener {
 
         Context context = getApplicationContext();
 
-        JSONObject jsonToGo = tcuComms.packJSON(context);
-        clearDatabase();
+        //JSONObject jsonToGo = tcuComms.packJSON(context);
+        //sendJSON(jsonToGo);
+        //clearDatabase();
 
         appPrefs = new CityPreference(context);
 
@@ -110,7 +122,7 @@ public class HomePage extends ListActivity implements LocationListener {
             e.printStackTrace();
         }
 
-        parseJSON(jsonToGo);
+        //parseJSON(jsonToGo);
 
 
         List<Profile> allProfs = profilesDatasource.getAllProfiles();
@@ -317,6 +329,10 @@ public class HomePage extends ListActivity implements LocationListener {
 
         if (id == R.id.user_login) {
             showUsernameInputDialog();
+        }
+
+        if (id == R.id.send_data) {
+            transferData();
         }
 
         return super.onOptionsItemSelected(item);
@@ -540,5 +556,56 @@ public class HomePage extends ListActivity implements LocationListener {
         } catch (Exception e) {
             Log.e("JSONParsing", "One or more fields not found in the JSON data");
         }
+    }
+
+    public void sendJSON (final JSONObject json) {
+
+        new Thread(){
+            public void run() {
+                System.out.println("In sendJSON");
+                HttpClient httpClient = new DefaultHttpClient();
+                System.out.println("Sending: "+json.toString());
+                HttpPost httpPostRqst = new HttpPost("http://192.168.4.1");
+                //HttpPost httpPostRqst = new HttpPost("http://posttestserver.com/post.php");
+                //HttpPost httpPostRqst = new HttpPost("http://postcatcher.in/catchers/55225ab9187ce60300001056");
+
+                System.out.println("-----------2------------");
+
+                try {
+                    httpPostRqst.setEntity(new StringEntity(json.toString(), "UTF-8"));
+                    httpPostRqst.setHeader("Content-Type", "application/json");
+                    //httpPostRqst.setHeader("Accept", "application/json");
+                    //jsonString.setContentType("application/json;charset=UTF-8");
+                    //jsonString.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
+                    //httpPostRqst.setEntity(jsonString);
+                } catch (UnsupportedEncodingException e) {
+                    // log exception
+                    e.printStackTrace();
+                }
+                System.out.println("-----------3------------");
+
+
+                try {
+                    HttpResponse httpResponse = httpClient.execute(httpPostRqst);
+                    Log.d("HTTPResponse:", httpResponse.getStatusLine().toString());
+                    Log.d("HTTPResponse:", httpResponse.getEntity().toString());
+                } catch (ClientProtocolException e) {
+                    // Log exception
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // Log exception
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println("-----------4------------");
+            }
+        }.start();
+    }
+
+    public void transferData(){
+        Context context = getApplicationContext();
+        JSONObject jsonToGo = tcuComms.packJSON(context);
+        sendJSON(jsonToGo);
     }
 }
